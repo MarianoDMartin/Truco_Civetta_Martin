@@ -2,12 +2,12 @@ package Truco;
 
 import java.util.ArrayList;
 
-public class Juego {
+public class Jugada {
 	
 	private Mazo mazo;
 	private ArrayList<Jugador> jugadores;
 	
-	public Juego(Integer cantidadJugadores){
+	public Jugada(Integer cantidadJugadores){
 		this.setMazo(new Mazo());
 		this.setJugadores(new ArrayList<Jugador>());
 		for(Integer i=1;i<=cantidadJugadores;i++){
