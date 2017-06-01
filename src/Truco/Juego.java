@@ -9,7 +9,8 @@ public class Juego {
 	private Jugada jugada;
 	private Integer puntajeMaximo;
 	private Integer turno;
-	
+
+//constructores
 	public Juego(Integer puntajeMaximo, Integer cantidadJugadores){
 		this.setPuntaje1(new Integer(0));
 		this.setPuntaje2(new Integer(0));
@@ -18,15 +19,8 @@ public class Juego {
 		Random rand = new Random();
 		this.setTurno(rand.nextInt(cantidadJugadores));
 	}
-	
-	public void EmpezarJuego(){
-		while ((puntaje1 < puntajeMaximo) && (puntaje2 < puntajeMaximo)){
-			while(jugada.verificarJugadaTerminada().equals(false)){
-//				this.getJugada().getJugadores().get(turno).elegirCarta();
-			}
-		}
-	}
-	
+
+//getters y setters	
 	public Integer getTurno() {
 		return turno;
 	}
@@ -67,4 +61,21 @@ public class Juego {
 		this.jugada = jugada;
 	}
 	
+//Metodos de la clase	
+	public void EmpezarJuego(){
+		Integer ronda=0;
+		Jugador primerJugador=this.getJugada().getJugadores().get(this.getTurno()-1);
+		while ((puntaje1 < puntajeMaximo) && (puntaje2 < puntajeMaximo)){
+			while(jugada.verificarJugadaTerminada().equals(false)){
+				while(ronda<3){
+					while(this.getJugada().obtenerUltimoJugador(primerJugador).getEnMesa().get(ronda).equals(null)){
+						this.getJugada().getJugadores().get(this.getTurno()-1).elegirCarta();
+						this.setTurno(this.getJugada().proximoTurno(this.getTurno()));
+					}
+					
+					ronda++;
+				}
+			}
+		}
+	}
 }

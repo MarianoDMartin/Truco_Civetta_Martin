@@ -9,11 +9,13 @@ public class Jugador {
 	private Integer id;
 	private ArrayList<Naipe> mano;
 	private ArrayList<Naipe> enMesa;
-
+	
+//constructores
 	public Jugador(Integer id,Mazo mazo){
 		Integer naipe=0;
 		this.setId(id);
 		this.setMano(new ArrayList<Naipe>());
+		this.setEnMesa(new ArrayList<Naipe>());
 		Random rand = new Random();
 		for(Integer i=0;i<3;i++){
 			naipe=rand.nextInt(mazo.getNaipes().size());
@@ -22,6 +24,15 @@ public class Jugador {
 		}
 	}
 	
+//getters y setters	
+	public ArrayList<Naipe> getEnMesa() {
+		return enMesa;
+	}
+
+	public void setEnMesa(ArrayList<Naipe> enMesa) {
+		this.enMesa = enMesa;
+	}
+
 	public ArrayList<Naipe> getMano() {
 		return mano;
 	}
@@ -38,12 +49,19 @@ public class Jugador {
 		this.id = id;
 	}
 	
+//Metodos de la clase
 	public String toString(){
 		return "Jugador" + this.getId().toString() + this.getMano().toString();
 	}
-
-	public Naipe elegirCarta(){
+	
+	private void pasarDeManoAEnMesa(Naipe naipe){
+		this.getMano().remove(naipe);
+		this.getEnMesa().add(naipe);
+	}
+	
+	public void elegirCarta(){
 		Integer naipeElegido=0;
+		Naipe naipe;
 		if (this.getId().equals(1)){
 			Scanner teclado = new Scanner (System.in);
 			System.out.println("Ingrese el naipe que desea tirar:");
@@ -51,10 +69,12 @@ public class Jugador {
 			naipeElegido = teclado.nextInt();
 			teclado.close();
 			naipeElegido--;
-			return mano.get(naipeElegido);
+			naipe=mano.get(naipeElegido);
+			this.pasarDeManoAEnMesa(naipe);
 		}
 		else{
-			return mano.get(0);
+			naipe=mano.get(0);
+			this.pasarDeManoAEnMesa(naipe);
 		}
 	}
 }

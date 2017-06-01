@@ -6,7 +6,8 @@ public class Jugada {
 	
 	private Mazo mazo;
 	private ArrayList<Jugador> jugadores;
-	
+
+//constructores	
 	public Jugada(Integer cantidadJugadores){
 		this.setMazo(new Mazo());
 		this.setJugadores(new ArrayList<Jugador>());
@@ -18,6 +19,7 @@ public class Jugada {
 		}
 	}
 
+//getters y setters	
 	public Mazo getMazo() {
 		return this.mazo;
 	}
@@ -34,6 +36,7 @@ public class Jugada {
 		this.jugadores = jugadores;
 	}
 	
+//Metodos de la clase	
 	public Boolean verificarJugadaTerminada() {
 		return false;
 	}
@@ -41,6 +44,24 @@ public class Jugada {
 	public void eliminarManoDelMazo(ArrayList<Naipe> mano){
 		for(Integer i=0;i<mano.size();i++){
 			this.getMazo().getNaipes().remove(mano.get(i));
+		}
+	}
+	
+	public Jugador obtenerUltimoJugador(Jugador primerJugador){
+		if(primerJugador.getId().equals(1)){
+			return this.getJugadores().get(this.getJugadores().size());
+		}
+		else{
+			return this.getJugadores().get(primerJugador.getId()-1);
+		}
+	}
+	
+	public Integer proximoTurno(Integer turnoActual){
+		if(turnoActual.equals(this.getJugadores().size())){
+			return 1;
+		}
+		else{
+			return turnoActual+1;
 		}
 	}
 	

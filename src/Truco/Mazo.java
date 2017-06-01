@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Mazo {
 	private ArrayList<Naipe> naipes;
-	
+
+//constructores
 	public Mazo(){
 		this.setNaipes(new ArrayList<Naipe>());
 		for(int i=1;i<=12;i++){
@@ -29,6 +30,7 @@ public class Mazo {
 		}
 	}
 	
+//getters y setters		
 	public ArrayList<Naipe> getNaipes() {
 		return this.naipes;
 	}
@@ -36,7 +38,8 @@ public class Mazo {
 	public void setNaipes(ArrayList<Naipe> naipes) {
 		this.naipes = naipes;
 	}
-	
+
+//Metodos de la clase
 	public String toString(){
 		String retorno = "";
 		Integer i=0;
