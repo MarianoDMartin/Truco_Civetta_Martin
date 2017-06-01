@@ -9,7 +9,7 @@ public class Naipe {
 		this.setPalo(palo);
 		this.setValor(valor);
 	}
-		
+
 	public Palos getPalo() {
 		return this.palo;
 	}

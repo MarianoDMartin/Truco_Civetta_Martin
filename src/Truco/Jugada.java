@@ -17,7 +17,7 @@ public class Jugada {
 			System.out.println(this.getMazo().toString());
 		}
 	}
-	
+
 	public Mazo getMazo() {
 		return this.mazo;
 	}
@@ -32,6 +32,10 @@ public class Jugada {
 	
 	public void setJugadores(ArrayList<Jugador> jugadores) {
 		this.jugadores = jugadores;
+	}
+	
+	public Boolean verificarJugadaTerminada() {
+		return false;
 	}
 	
 	public void eliminarManoDelMazo(ArrayList<Naipe> mano){

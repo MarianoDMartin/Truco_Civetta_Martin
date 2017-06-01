@@ -2,11 +2,13 @@ package Truco;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Jugador {
 	
 	private Integer id;
 	private ArrayList<Naipe> mano;
+	private ArrayList<Naipe> enMesa;
 
 	public Jugador(Integer id,Mazo mazo){
 		Integer naipe=0;
@@ -40,4 +42,19 @@ public class Jugador {
 		return "Jugador" + this.getId().toString() + this.getMano().toString();
 	}
 
+	public Naipe elegirCarta(){
+		Integer naipeElegido=0;
+		if (this.getId().equals(1)){
+			Scanner teclado = new Scanner (System.in);
+			System.out.println("Ingrese el naipe que desea tirar:");
+			System.out.println(mano.toString());
+			naipeElegido = teclado.nextInt();
+			teclado.close();
+			naipeElegido--;
+			return mano.get(naipeElegido);
+		}
+		else{
+			return mano.get(0);
+		}
+	}
 }
