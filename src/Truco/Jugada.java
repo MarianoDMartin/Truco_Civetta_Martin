@@ -14,14 +14,14 @@ public class Jugada {
 	public Jugada(Integer cantidadJugadores){
 		this.setMazo(new Mazo());
 		this.setJugadores(new ArrayList<Jugador>());
-		this.setRonda1(3);
-		this.setRonda2(3);
-		this.setRonda3(3);
+		this.setRonda1(-1);
+		this.setRonda2(-1);
+		this.setRonda3(-1);
 		for(Integer i=1;i<=cantidadJugadores;i++){
 			this.getJugadores().add(new Jugador(i,this.getMazo()));
 			this.eliminarManoDelMazo(this.getJugadores().get(i-1).getMano());
-			System.out.println(this.getJugadores().get(i-1));
-			System.out.println(this.getMazo().toString());
+//			System.out.println(this.getJugadores().get(i-1));
+//			System.out.println(this.getMazo().toString());
 		}
 	}
 
@@ -100,22 +100,31 @@ public class Jugada {
 		}
 	}
 	
-	public Integer JugadaTerminada() {
+	public Integer JugadaTerminada() { //0->Jugada no terminada 1->Jugada ganada por equipo1 2->Jugada ganada por equipo2 3->Jugada para el equipo mano
 		if((this.getRonda1().equals(-1))||(this.getRonda2().equals(-1))){
 			return 0;
 		}
 		else{
 			if( ( (this.getRonda1().equals(this.getRonda2())) || (this.getRonda1().equals(this.getRonda3())) ) && (this.getRonda1().equals(1)||(this.getRonda1().equals(2)))){
-				System.out.println("Ganador equipo " + this.getRonda1().toString() + "!!!");
 				return this.getRonda1();
 			}
 			else{
-			
+				if( (this.getRonda1().equals(0)) && ((this.getRonda2().equals(1))||(this.getRonda2().equals(2))) ){
+					return this.getRonda2();
+				}
+				else{
+					if( (this.getRonda1().equals(0)) && (this.getRonda2().equals(0)) && ((this.getRonda3().equals(1))||(this.getRonda3().equals(2))) ){
+						return this.getRonda3();
+					}
+					else{
+						if(this.getRonda3().equals(-1)){
+							return 0;
+						}
+						return 3;
+					}
+				}
 			}
 		}
-		return 0;
-		//aca hay que ver si un equipo ya gano dos rondas o si se gano por parda
-		
 	}
 	
 	public void eliminarManoDelMazo(ArrayList<Naipe> mano){
