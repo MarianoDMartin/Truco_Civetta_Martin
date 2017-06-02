@@ -66,15 +66,13 @@ public class Juego {
 		Integer ronda=0;
 		Jugador primerJugador=this.getJugada().getJugadores().get(this.getTurno()-1);
 		while ((puntaje1 < puntajeMaximo) && (puntaje2 < puntajeMaximo)){
-			while(jugada.verificarJugadaTerminada().equals(false)){
-				while(ronda<3){
-					while(this.getJugada().obtenerUltimoJugador(primerJugador).getEnMesa().get(ronda).equals(null)){
-						this.getJugada().getJugadores().get(this.getTurno()-1).elegirCarta();
-						this.setTurno(this.getJugada().proximoTurno(this.getTurno()));
-					}
-					
-					ronda++;
+			while(!this.getJugada().JugadaTerminada()){
+				while(this.getJugada().obtenerUltimoJugador(primerJugador).getEnMesa().get(ronda).equals(null)){
+					this.getJugada().getJugadores().get(this.getTurno()-1).elegirCarta();
+					this.setTurno(this.getJugada().proximoTurno(this.getTurno()));
 				}
+				this.getJugada().verificarRonda(ronda);
+				ronda++;
 			}
 		}
 	}
