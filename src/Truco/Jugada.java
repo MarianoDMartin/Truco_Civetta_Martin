@@ -100,9 +100,22 @@ public class Jugada {
 		}
 	}
 	
-	public Boolean JugadaTerminada() {
+	public Integer JugadaTerminada() {
+		if((this.getRonda1().equals(-1))||(this.getRonda2().equals(-1))){
+			return 0;
+		}
+		else{
+			if( ( (this.getRonda1().equals(this.getRonda2())) || (this.getRonda1().equals(this.getRonda3())) ) && (this.getRonda1().equals(1)||(this.getRonda1().equals(2)))){
+				System.out.println("Ganador equipo " + this.getRonda1().toString() + "!!!");
+				return this.getRonda1();
+			}
+			else{
+			
+			}
+		}
+		return 0;
 		//aca hay que ver si un equipo ya gano dos rondas o si se gano por parda
-		return false;
+		
 	}
 	
 	public void eliminarManoDelMazo(ArrayList<Naipe> mano){
