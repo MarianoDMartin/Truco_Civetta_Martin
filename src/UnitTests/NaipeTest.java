@@ -1,4 +1,4 @@
-package Truco.UnitTests;
+package UnitTests;
 
 import static org.junit.Assert.*;
 
