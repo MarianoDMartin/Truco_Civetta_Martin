@@ -20,8 +20,6 @@ public class Jugada {
 		for(Integer i=1;i<=cantidadJugadores;i++){
 			this.getJugadores().add(new Jugador(i,this.getMazo()));
 			this.eliminarManoDelMazo(this.getJugadores().get(i-1).getMano());
-//			System.out.println(this.getJugadores().get(i-1));
-//			System.out.println(this.getMazo().toString());
 		}
 	}
 
