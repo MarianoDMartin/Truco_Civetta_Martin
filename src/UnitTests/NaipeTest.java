@@ -141,6 +141,10 @@ public class NaipeTest {
 		naipe=new Naipe(Naipe.Palos.Espada,7);
 		naipe2=new Naipe(Naipe.Palos.Basto,1);
 		assertTrue(naipe.mayorA(naipe2)==0);
+		
+		naipe=new Naipe(Naipe.Palos.Oro,7);
+		naipe2=new Naipe(Naipe.Palos.Copa,1);
+		assertTrue(naipe.mayorA(naipe2)==1);
 	}
 
 }

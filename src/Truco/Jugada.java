@@ -131,18 +131,18 @@ public class Jugada {
 		}
 	}
 	
-	public Jugador obtenerUltimoJugador(Jugador primerJugador){
-		if(primerJugador.getId().equals(1)){
-			return this.getJugadores().get(this.getJugadores().size());
+	public int ultimoTurno(Integer primerJugador){
+		if(primerJugador==0){
+			return this.getJugadores().size()-1;
 		}
 		else{
-			return this.getJugadores().get(primerJugador.getId()-1);
+			return primerJugador-1;
 		}
 	}
 	
 	public Integer proximoTurno(Integer turnoActual){
-		if(turnoActual.equals(this.getJugadores().size())){
-			return 1;
+		if(turnoActual.equals(this.getJugadores().size()-1)){
+			return 0;
 		}
 		else{
 			return turnoActual+1;

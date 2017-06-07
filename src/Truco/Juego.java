@@ -64,10 +64,10 @@ public class Juego {
 //Metodos de la clase	
 	public void EmpezarJuego(){
 		Integer ronda=0;
-		Jugador primerJugador=this.getJugada().getJugadores().get(this.getTurno()-1);
+		Integer primerJugador=this.getTurno();
 		while ((puntaje1 < puntajeMaximo) && (puntaje2 < puntajeMaximo)){
 			while(this.getJugada().JugadaTerminada().equals(0)){
-				while(this.getJugada().obtenerUltimoJugador(primerJugador).getEnMesa().get(ronda).equals(null)){
+				while( this.getJugada().getJugadores().get(this.getJugada().ultimoTurno(primerJugador)).getEnMesa().get(ronda)==null){
 					this.getJugada().getJugadores().get(this.getTurno()-1).elegirCarta();
 					this.setTurno(this.getJugada().proximoTurno(this.getTurno()));
 				}
