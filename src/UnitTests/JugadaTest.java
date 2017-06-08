@@ -237,6 +237,7 @@ public class JugadaTest {
 		assertTrue(jugada.proximoTurno(1)==2);
 		assertTrue(jugada.proximoTurno(2)==3);
 		assertTrue(jugada.proximoTurno(5)==0);
+		assertTrue(jugada.proximoTurno(3)==4);
 	}
 
 }
