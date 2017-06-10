@@ -1,7 +1,5 @@
 package Truco;
 
-import java.util.ArrayList;
-
 public class Naipe {
 	
 	private Palos palo;
@@ -34,7 +32,7 @@ public class Naipe {
 	public static enum Palos{Espada,Basto,Copa,Oro,Null};
 	
 	public String toString(){
-		return this.getValor().toString()+this.getPalo().toString();
+		return this.getValor().toString()+"->"+this.getPalo().toString();
 	}
 	
 	public boolean equals(Object paramObject){

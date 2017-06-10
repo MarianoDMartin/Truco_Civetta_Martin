@@ -51,7 +51,7 @@ public class Jugador {
 	
 //Metodos de la clase
 	public String toString(){
-		return "Jugador" + this.getId().toString() + this.getMano().toString();
+		return "Jugador" + this.getId().toString() + this.getEnMesa().toString();
 	}
 	
 	private void pasarDeManoAEnMesa(Naipe naipe){
@@ -59,15 +59,19 @@ public class Jugador {
 		this.getEnMesa().add(naipe);
 	}
 	
+	private void mostrarMano(){
+		System.out.println("Sus naipes disponibles son:");
+		for(int i=0;i<this.getMano().size();i++){
+			System.out.println(i+1 + ")" + this.getMano().get(i));
+		}
+	}
 	public void elegirCarta(){
 		Integer naipeElegido=0;
 		Naipe naipe;
 		if (this.getId().equals(1)){
-			Scanner teclado = new Scanner (System.in);
+			mostrarMano();
 			System.out.println("Ingrese el naipe que desea tirar:");
-			System.out.println(mano.toString());
-			naipeElegido = teclado.nextInt();
-			teclado.close();
+			naipeElegido = Teclado.pedirEntrada(this.getMano().size());
 			naipeElegido--;
 			naipe=mano.get(naipeElegido);
 			this.pasarDeManoAEnMesa(naipe);

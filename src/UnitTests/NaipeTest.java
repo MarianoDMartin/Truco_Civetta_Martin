@@ -77,11 +77,11 @@ public class NaipeTest {
 	@Test
 	public void testToString() {
 		naipe=new Naipe(Naipe.Palos.Basto,5);
-		assertTrue(naipe.toString().equals("5Basto"));
+		assertTrue(naipe.toString().equals("5->Basto"));
 		naipe=new Naipe(Naipe.Palos.Oro,6);
-		assertTrue(naipe.toString().equals("6Oro"));
+		assertTrue(naipe.toString().equals("6->Oro"));
 		naipe=new Naipe(Naipe.Palos.Copa,5);
-		assertTrue(naipe.toString().equals("5Copa"));
+		assertTrue(naipe.toString().equals("5->Copa"));
 	}
 
 	@Test
