@@ -17,13 +17,13 @@ public class Teclado {
 		Boolean valorCorrecto=false;
 		Integer opcion=0;
 		Scanner teclado = new Scanner (System.in);
-		String entrada;
+		String entrada = null;
 		while(!valorCorrecto){
-			entrada = teclado.next();
+			entrada = teclado.nextLine();
+			
 			if(isNumeric(entrada)){
 				opcion=Integer.parseInt(entrada);
 				if((opcion<=opcionMaxima)&&(opcion>=1)){
-					teclado.close();
 					return opcion;
 				}
 				else{
@@ -34,7 +34,7 @@ public class Teclado {
 				System.out.println("Debe ingresar un numero valido");
 			}
 		}
-		teclado.close();
 		return opcion;
 	}
+	
 }

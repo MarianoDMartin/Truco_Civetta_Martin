@@ -63,17 +63,52 @@ public class Juego {
 	
 //Metodos de la clase	
 	public void EmpezarJuego(){
+		Integer ganadorJugada=0;
 		Integer ronda=0;
+		Integer auxTurno;
 		Integer primerJugador=this.getTurno();
+		Integer primeroDeJugada=primerJugador;
 		while ((puntaje1 < puntajeMaximo) && (puntaje2 < puntajeMaximo)){
-			while(this.getJugada().JugadaTerminada().equals(0)){
-				while( this.getJugada().getJugadores().get(this.getJugada().ultimoTurno(primerJugador)).getEnMesa().get(ronda)==null){
-					this.getJugada().getJugadores().get(this.getTurno()-1).elegirCarta();
+			System.out.println("Puntos equipo 1: "+ this.getPuntaje1());
+			System.out.println("Puntos equipo 2: "+ this.getPuntaje2());
+			System.out.println("Comienza el jugador"+(this.getTurno()+1));
+			while(ganadorJugada==0){
+				while( this.getJugada().getJugadores().get(this.getJugada().ultimoTurno(primerJugador)).getEnMesa().size()==ronda){
+					this.getJugada().getJugadores().get(this.getTurno()).elegirCarta();
 					this.setTurno(this.getJugada().proximoTurno(this.getTurno()));
 				}
-				this.getJugada().verificarRonda(ronda);
+				auxTurno=this.getJugada().verificarRonda(ronda);
+				if (auxTurno!=-1){
+					primerJugador=auxTurno;
+					this.setTurno(auxTurno);
+					System.out.println("Ganador de la ronda: Jugador"+(auxTurno+1));
+				}
+				else{
+					System.out.println("Parda!");
+				}
 				ronda++;
+				ganadorJugada=this.getJugada().JugadaTerminada();
 			}
+			if(ganadorJugada==3){
+				if((primeroDeJugada==0)||(primeroDeJugada==2)||(primeroDeJugada==4)){
+					ganadorJugada=1;
+				}
+				else{
+					ganadorJugada=2;
+				}
+			}
+			System.out.println("Ganador de mano equipo "+ganadorJugada+"!!!");
+			if(ganadorJugada==1){
+				this.setPuntaje1(this.getPuntaje1()+2);
+			}
+			else{
+				this.setPuntaje2(this.getPuntaje2()+2);
+			}
+			this.setTurno(jugada.proximoTurno(primeroDeJugada));
+			primerJugador=this.getTurno();
+			ganadorJugada=0;
+			ronda=0;
+			this.getJugada().nuevaJugada();
 		}
 	}
 }

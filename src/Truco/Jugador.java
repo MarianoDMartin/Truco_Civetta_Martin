@@ -2,7 +2,6 @@ package Truco;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Jugador {
 	
@@ -17,10 +16,20 @@ public class Jugador {
 		this.setMano(new ArrayList<Naipe>());
 		this.setEnMesa(new ArrayList<Naipe>());
 		Random rand = new Random();
-		for(Integer i=0;i<3;i++){
-			naipe=rand.nextInt(mazo.getNaipes().size());
-			this.getMano().add((mazo.getNaipes().get(naipe)));
-			mazo.getNaipes().remove(mazo.getNaipes().get(naipe));
+//		for(Integer i=0;i<3;i++){
+//			naipe=rand.nextInt(mazo.getNaipes().size());
+//			this.getMano().add((mazo.getNaipes().get(naipe)));
+//			mazo.getNaipes().remove(mazo.getNaipes().get(naipe));
+//		}
+		if(this.getId()==1){
+			this.getMano().add(new Naipe(Naipe.Palos.Basto,4));
+			this.getMano().add(new Naipe(Naipe.Palos.Oro,4));
+			this.getMano().add(new Naipe(Naipe.Palos.Basto,5));
+		}
+		else{
+			this.getMano().add(new Naipe(Naipe.Palos.Copa,4));
+			this.getMano().add(new Naipe(Naipe.Palos.Espada,4));
+			this.getMano().add(new Naipe(Naipe.Palos.Espada,5));
 		}
 	}
 	
@@ -67,6 +76,7 @@ public class Jugador {
 	}
 	public void elegirCarta(){
 		Integer naipeElegido=0;
+		System.out.println("Turno jugador"+this.getId());
 		Naipe naipe;
 		if (this.getId().equals(1)){
 			mostrarMano();
@@ -80,5 +90,6 @@ public class Jugador {
 			naipe=mano.get(0);
 			this.pasarDeManoAEnMesa(naipe);
 		}
+		System.out.println("Elijo el naipe "+naipe);
 	}
 }

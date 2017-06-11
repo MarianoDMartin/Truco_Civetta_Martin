@@ -158,17 +158,17 @@ public class JugadaTest {
 		jugada.getJugadores().get(0).getEnMesa().add(new Naipe(Naipe.Palos.Basto,1));
 		jugada.getJugadores().get(1).getEnMesa().add(new Naipe(Naipe.Palos.Espada,1));
 		jugada.verificarRonda(0);
-		assertTrue(jugada.getRonda1()==2);
+		assertTrue((jugada.getRonda1()==2) && (jugada.verificarRonda(ronda)==1));
 		ronda=1;
 		jugada.getJugadores().get(0).getEnMesa().add(new Naipe(Naipe.Palos.Copa,1));
 		jugada.getJugadores().get(1).getEnMesa().add(new Naipe(Naipe.Palos.Oro,1));
 		jugada.verificarRonda(ronda);
-		assertTrue(jugada.getRonda2()==0);
+		assertTrue((jugada.getRonda2()==0) && (jugada.verificarRonda(ronda)==-1));
 		ronda=2;
 		jugada.getJugadores().get(0).getEnMesa().add(new Naipe(Naipe.Palos.Espada,7));
 		jugada.getJugadores().get(1).getEnMesa().add(new Naipe(Naipe.Palos.Oro,7));
 		jugada.verificarRonda(ronda);
-		assertTrue(jugada.getRonda3()==1);
+		assertTrue((jugada.getRonda3()==1) && (jugada.verificarRonda(ronda)==0));
 	}
 
 	@Test
@@ -195,6 +195,14 @@ public class JugadaTest {
 		jugada.setRonda2(2);
 		jugada.setRonda3(1);
 		assertTrue(jugada.JugadaTerminada()==1);
+		jugada.setRonda1(1);
+		jugada.setRonda2(0);
+		jugada.setRonda3(-1);
+		assertTrue(jugada.JugadaTerminada()==1);
+		jugada.setRonda1(1);
+		jugada.setRonda2(2);
+		jugada.setRonda3(2);
+		assertTrue(jugada.JugadaTerminada()==2);
 	}
 
 	@Test

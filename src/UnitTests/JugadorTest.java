@@ -106,14 +106,12 @@ public class JugadorTest {
 
 	@Test
 	public void testElegirCarta() {
-		jugador=new Jugador(1,new Mazo());
+		jugador=new Jugador(2,new Mazo());
 		ArrayList<Naipe> mano=new ArrayList<Naipe>();
 		mano.add(new Naipe(Naipe.Palos.Basto,1));
 		mano.add(new Naipe(Naipe.Palos.Basto,2));
 		mano.add(new Naipe(Naipe.Palos.Basto,3));
 		jugador.setMano(mano);
-		System.out.println("para esta prueba ingresar 1");
-		System.out.println(jugador.getMano());
 		jugador.elegirCarta();
 		assertTrue(jugador.getMano().equals(mano));
 	}

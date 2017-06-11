@@ -66,9 +66,10 @@ public class Jugada {
 	}
 	
 //Metodos de la clase	
-	public void verificarRonda(Integer ronda){
+	public Integer verificarRonda(Integer ronda){
 		Naipe naipeMayor=null;
 		Integer ganadorRonda=null;
+		Integer idGanador = null;
 		for(Jugador j:this.getJugadores()){
 			if(j.getEnMesa().get(ronda).mayorA(naipeMayor).equals(1)){
 				naipeMayor=j.getEnMesa().get(ronda);
@@ -78,10 +79,12 @@ public class Jugada {
 				else{
 					ganadorRonda=2;
 				}
+				idGanador=j.getId()-1;
 			}
 			else{
 				if(j.getEnMesa().get(ronda).mayorA(naipeMayor).equals(2)){
 					ganadorRonda=0;
+					idGanador=-1;
 				}
 			}
 		}
@@ -96,6 +99,7 @@ public class Jugada {
 				this.setRonda3(ganadorRonda);
 			}
 		}
+		return idGanador;
 	}
 	
 	public Integer JugadaTerminada() { //0->Jugada no terminada 1->Jugada ganada por equipo1 2->Jugada ganada por equipo2 3->Jugada para el equipo mano
@@ -103,22 +107,44 @@ public class Jugada {
 			return 0;
 		}
 		else{
-			if( ( (this.getRonda1().equals(this.getRonda2())) || (this.getRonda1().equals(this.getRonda3())) ) && (this.getRonda1().equals(1)||(this.getRonda1().equals(2)))){
-				return this.getRonda1();
+			if( this.getRonda1().equals(this.getRonda2()) ){
+				if(this.getRonda1().equals(0)){
+					if(this.getRonda3().equals(-1)){
+						return 0;
+					}
+					else{
+						if(this.getRonda3().equals(0)){
+							return 3;
+						}
+						else{
+							return this.getRonda3();
+						}
+					}
+				}
+				else{
+					return this.getRonda1();
+				}
 			}
 			else{
-				if( (this.getRonda1().equals(0)) && ((this.getRonda2().equals(1))||(this.getRonda2().equals(2))) ){
+				if(this.getRonda1().equals(0)){
 					return this.getRonda2();
 				}
 				else{
-					if( (this.getRonda1().equals(0)) && (this.getRonda2().equals(0)) && ((this.getRonda3().equals(1))||(this.getRonda3().equals(2))) ){
-						return this.getRonda3();
+					if(this.getRonda2().equals(0)){
+						return this.getRonda1();
 					}
 					else{
-						if(this.getRonda3().equals(-1)){
+						if (this.getRonda3().equals(-1)){
 							return 0;
 						}
-						return 3;
+						else{
+							if(this.getRonda3().equals(0)){
+								return this.getRonda1();
+							}
+							else{
+								return this.getRonda3();
+							}
+						}
 					}
 				}
 			}
@@ -146,6 +172,19 @@ public class Jugada {
 		}
 		else{
 			return turnoActual+1;
+		}
+	}
+	
+	public void nuevaJugada(){
+		Integer cantidadJugadores=this.getJugadores().size();
+		this.setMazo(new Mazo());
+		this.setJugadores(new ArrayList<Jugador>());
+		this.setRonda1(-1);
+		this.setRonda2(-1);
+		this.setRonda3(-1);
+		for(Integer i=1;i<=cantidadJugadores;i++){
+			this.getJugadores().add(new Jugador(i,this.getMazo()));
+			this.eliminarManoDelMazo(this.getJugadores().get(i-1).getMano());
 		}
 	}
 	

@@ -4,44 +4,38 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		Naipe n1=new Naipe(Naipe.Palos.Basto,3);
-//		Naipe n2=new Naipe(Naipe.Palos.Espada,3);
-//		if(n1.mayorA(n2)==1){
-//			System.out.println("Mayor");
-//		}
-//		else{
-//			if(n1.mayorA(n2)==2){
-//				System.out.println("Parda");
-//			}
-//			else{
-//				System.out.println("Menor");
-//			}
-//		}
-		Jugada j=new Jugada(6);
-		System.out.println(j.JugadaTerminada());
-		j.setRonda1(0);
-		j.setRonda2(1);
-		System.out.println(j.JugadaTerminada());
-		j.setRonda1(0);
-		j.setRonda2(0);
-		j.setRonda3(0);
-		System.out.println(j.JugadaTerminada());
-		j.setRonda1(0);
-		j.setRonda2(0);
-		j.setRonda3(1);
-		System.out.println(j.JugadaTerminada());
-		j.setRonda1(1);
-		j.setRonda2(2);
-		j.setRonda3(1);
-		System.out.println(j.JugadaTerminada());
-		j.setRonda1(0);
-		j.setRonda2(0);
-		j.setRonda3(-1);
-		System.out.println(j.JugadaTerminada());
-		j.setRonda1(2);
-		j.setRonda2(2);
-		j.setRonda3(-1);
-		System.out.println(j.JugadaTerminada());
+		Juego juego;
+		System.out.println("Bienvenido a TrucoFacilito!!!");
+		System.out.println("Elegí la cantidad de jugadores...");
+		System.out.println("1) 2 Jugadores");
+		System.out.println("2) 4 Jugadores");
+		System.out.println("3) 6 Jugadores");
+		System.out.println("Ingresa tu opcion:");
+		Integer jugadores= Teclado.pedirEntrada(3);
+		if(jugadores==1){
+			jugadores=2;
+		}
+		else{
+			if(jugadores==2){
+				jugadores=4;
+			}
+			else{
+				jugadores=6;
+			}
+		}
+		System.out.println("Elegí el puntaje maximo");
+		System.out.println("1) 15 puntos");
+		System.out.println("2) 30 puntos");
+		System.out.println("Ingresa tu opcion:");
+		Integer puntajeMax=Teclado.pedirEntrada(2);
+		if(puntajeMax==1){
+			puntajeMax=15;
+		}
+		else{
+			puntajeMax=30;
+		}
+		juego=new Juego(puntajeMax,jugadores);
+		juego.EmpezarJuego();
 	}
 
 }
