@@ -2,7 +2,11 @@ package Truco;
 
 import java.util.ArrayList;
 
-public class Mazo {
+public class Mazo implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Naipe> naipes;
 
 //constructores

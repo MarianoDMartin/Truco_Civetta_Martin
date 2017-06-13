@@ -1,7 +1,11 @@
 package Truco;
 
-public class Naipe {
+public class Naipe implements java.io.Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Palos palo;
 	private Integer valor;
 	

@@ -2,8 +2,12 @@ package Truco;
 
 import java.util.Random;
 
-public class Juego {
+public class Juego implements java.io.Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer puntaje1;
 	private Integer puntaje2;
 	private Jugada jugada;
@@ -61,7 +65,13 @@ public class Juego {
 		this.jugada = jugada;
 	}
 	
-//Metodos de la clase	
+//Metodos de la clase
+	public  void pausa(){ 
+		try { 
+			Thread.sleep(50000); 
+		} catch (Exception ignored) {} 
+	} 
+	
 	public void EmpezarJuego(){
 		Integer ganadorJugada=0;
 		Integer ronda=0;
@@ -104,11 +114,18 @@ public class Juego {
 			else{
 				this.setPuntaje2(this.getPuntaje2()+2);
 			}
+			
 			this.setTurno(jugada.proximoTurno(primeroDeJugada));
 			primerJugador=this.getTurno();
 			ganadorJugada=0;
 			ronda=0;
 			this.getJugada().nuevaJugada();
+			System.out.println("1)Seguir Jugando \n2)Guardar y salir \nIngresa tu opcion:");
+			if(Teclado.pedirEntrada(2)==2){
+				Archivos.guardarJuego(this);
+				puntaje1=puntajeMaximo;
+			}
+			
 		}
 	}
 }

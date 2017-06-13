@@ -2,8 +2,12 @@ package Truco;
 
 import java.util.ArrayList;
 
-public class Jugada {
+public class Jugada implements java.io.Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Mazo mazo;
 	private ArrayList<Jugador> jugadores;
 	private Integer ronda1;

@@ -3,8 +3,12 @@ package Truco;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Jugador {
+public class Jugador implements java.io.Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private ArrayList<Naipe> mano;
 	private ArrayList<Naipe> enMesa;
@@ -16,21 +20,12 @@ public class Jugador {
 		this.setMano(new ArrayList<Naipe>());
 		this.setEnMesa(new ArrayList<Naipe>());
 		Random rand = new Random();
-//		for(Integer i=0;i<3;i++){
-//			naipe=rand.nextInt(mazo.getNaipes().size());
-//			this.getMano().add((mazo.getNaipes().get(naipe)));
-//			mazo.getNaipes().remove(mazo.getNaipes().get(naipe));
-//		}
-		if(this.getId()==1){
-			this.getMano().add(new Naipe(Naipe.Palos.Basto,4));
-			this.getMano().add(new Naipe(Naipe.Palos.Oro,4));
-			this.getMano().add(new Naipe(Naipe.Palos.Basto,5));
+		for(Integer i=0;i<3;i++){
+			naipe=rand.nextInt(mazo.getNaipes().size());
+			this.getMano().add((mazo.getNaipes().get(naipe)));
+			mazo.getNaipes().remove(mazo.getNaipes().get(naipe));
 		}
-		else{
-			this.getMano().add(new Naipe(Naipe.Palos.Copa,4));
-			this.getMano().add(new Naipe(Naipe.Palos.Espada,4));
-			this.getMano().add(new Naipe(Naipe.Palos.Espada,5));
-		}
+
 	}
 	
 //getters y setters	
@@ -74,6 +69,12 @@ public class Jugador {
 			System.out.println(i+1 + ")" + this.getMano().get(i));
 		}
 	}
+	public  void pausa(){ 
+		try { 
+			Thread.sleep(3000); 
+		} catch (Exception ignored) {} 
+	} 
+	
 	public void elegirCarta(){
 		Integer naipeElegido=0;
 		System.out.println("Turno jugador"+this.getId());
@@ -87,6 +88,7 @@ public class Jugador {
 			this.pasarDeManoAEnMesa(naipe);
 		}
 		else{
+			pausa();
 			naipe=mano.get(0);
 			this.pasarDeManoAEnMesa(naipe);
 		}

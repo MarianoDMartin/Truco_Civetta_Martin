@@ -16,6 +16,7 @@ public class Teclado {
 	public static Integer pedirEntrada(Integer opcionMaxima){
 		Boolean valorCorrecto=false;
 		Integer opcion=0;
+		@SuppressWarnings("resource")
 		Scanner teclado = new Scanner (System.in);
 		String entrada = null;
 		while(!valorCorrecto){
@@ -35,6 +36,23 @@ public class Teclado {
 			}
 		}
 		return opcion;
+	}
+	
+	public static String pedirNombreArchivo(){
+		Boolean valorCorrecto=false;
+		@SuppressWarnings("resource")
+		Scanner teclado = new Scanner (System.in);
+		String archivo = null;
+		while(!valorCorrecto){
+			archivo = teclado.nextLine();
+			if(archivo.length()<10){
+				return archivo;
+			}
+			else{
+				System.out.println("El nombre de la partida debe tener menos de 10 letras...");
+			}
+		}
+		return archivo;
 	}
 	
 }
