@@ -80,7 +80,7 @@ public class Juego implements java.io.Serializable{
 			System.out.println("Comienza el jugador"+(this.getTurno()+1));
 			while(ganadorJugada==0){
 				Integer numeroDeTurno=0;
-				while( this.getJugada().getJugadores().get(this.getJugada().ultimoTurno(primerJugadorDeMano)).getEnMesa().size()==ronda){
+				while( ganadorJugada==0 && ( this.getJugada().getJugadores().get(this.getJugada().ultimoTurno(primerJugadorDeMano)).getEnMesa().size()==ronda) ){
 					numeroDeTurno++;
 					System.out.println("Turno jugador"+(this.getTurno()+1));
 					
@@ -90,17 +90,19 @@ public class Juego implements java.io.Serializable{
 					}
 					this.setTurno(this.getJugada().proximoTurno(this.getTurno()));
 				}
-				auxTurno=this.getJugada().verificarRonda(ronda);
-				if (auxTurno!=-1){
-					primerJugadorDeMano=auxTurno;
-					this.setTurno(auxTurno);
-					System.out.println("Ganador de la ronda: Jugador"+(auxTurno+1));
+				if (ganadorJugada==0){
+					auxTurno=this.getJugada().verificarRonda(ronda);
+					if (auxTurno!=-1){
+						primerJugadorDeMano=auxTurno;
+						this.setTurno(auxTurno);
+						System.out.println("Ganador de la ronda: Jugador"+(auxTurno+1));
+					}
+					else{
+						System.out.println("Parda!");
+					}
+					ronda++;
+					ganadorJugada=this.getJugada().JugadaTerminada();
 				}
-				else{
-					System.out.println("Parda!");
-				}
-				ronda++;
-				ganadorJugada=this.getJugada().JugadaTerminada();
 			}
 			if(ganadorJugada==3){
 				if((primeroDeJugada==0)||(primeroDeJugada==2)||(primeroDeJugada==4)){
@@ -111,11 +113,13 @@ public class Juego implements java.io.Serializable{
 				}
 			}
 			System.out.println("Ganador de mano equipo "+ganadorJugada+"!!!");
+			Integer puntajeASumar;
+			puntajeASumar=this.getJugada().getPuntosTruco();
 			if(ganadorJugada==1){
-				this.setPuntaje1(this.getPuntaje1()+2);
+				this.setPuntaje1(this.getPuntaje1()+puntajeASumar);
 			}
 			else{
-				this.setPuntaje2(this.getPuntaje2()+2);
+				this.setPuntaje2(this.getPuntaje2()+puntajeASumar);
 			}
 			
 			this.setTurno(jugada.proximoTurno(primeroDeJugada));

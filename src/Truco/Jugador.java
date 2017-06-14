@@ -63,10 +63,13 @@ public class Jugador implements java.io.Serializable{
 		this.getEnMesa().add(naipe);
 	}
 	
-	private void mostrarMano(){
+	private void mostrarMano(Boolean mostrarIndice){
 		System.out.println("Sus naipes disponibles son:");
 		for(int i=0;i<this.getMano().size();i++){
-			System.out.println(i+1 + ")" + this.getMano().get(i));
+			if (mostrarIndice)	
+				System.out.println(i+1 + ")" + this.getMano().get(i));
+			else
+				System.out.println(this.getMano().get(i));
 		}
 	}
 	
@@ -77,13 +80,20 @@ public class Jugador implements java.io.Serializable{
 	} 
 	
 	public Jugada cantarTruco(Jugada jugada){
+		Random rand = new Random();
+		if (rand.nextInt(3)==0){
 			System.out.println("QUIERO!!");
 			jugada.setPuntosTruco(2);
 			jugada.setQuienCantoTruco(2);
+		}
+		else{
+			System.out.println("No quiero...");
+		}
 		return jugada;
 	}
 	
 	public Jugada jugar(Jugada jugada,Integer numeroDeTurno,Integer ronda){
+		
 		Boolean trucoDisponible =false;
 		if(jugada.getPuntosTruco()==1){
 			trucoDisponible=true;
@@ -97,6 +107,8 @@ public class Jugador implements java.io.Serializable{
 		}
 		if(this.getId()==1){
 			if (trucoDisponible){
+				if(this.getId()==1)
+					mostrarMano(false);
 				System.out.println("1)Elegir carta a tirar \n2)Cantar Truco \nIngrese su opcion:");
 				if(Teclado.pedirEntrada(2)==1){
 					this.elegirCarta();
@@ -128,7 +140,7 @@ public class Jugador implements java.io.Serializable{
 		Integer naipeElegido=0;
 		Naipe naipe;
 		if (this.getId().equals(1)){
-			mostrarMano();
+			this.mostrarMano(true);
 			System.out.println("Ingrese el naipe que desea tirar:");
 			naipeElegido = Teclado.pedirEntrada(this.getMano().size());
 			naipeElegido--;

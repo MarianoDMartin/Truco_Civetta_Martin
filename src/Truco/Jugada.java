@@ -206,6 +206,8 @@ public class Jugada implements java.io.Serializable{
 		this.setRonda1(-1);
 		this.setRonda2(-1);
 		this.setRonda3(-1);
+		this.setPuntosTruco(1);
+		this.setQuienCantoTruco(0);
 		for(Integer i=1;i<=cantidadJugadores;i++){
 			this.getJugadores().add(new Jugador(i,this.getMazo()));
 			this.eliminarManoDelMazo(this.getJugadores().get(i-1).getMano());

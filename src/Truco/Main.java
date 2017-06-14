@@ -10,7 +10,7 @@ public class Main {
 		Integer opcion=Teclado.pedirEntrada(3);
 		while (opcion!=3){
 			if(opcion==1){
-				System.out.println("Elegí la cantidad de jugadores...");
+				System.out.println("Elegi la cantidad de jugadores...");
 				System.out.println("1) 2 Jugadores");
 				System.out.println("2) 4 Jugadores");
 				System.out.println("3) 6 Jugadores");
@@ -27,7 +27,7 @@ public class Main {
 						jugadores=6;
 					}
 				}
-				System.out.println("Elegí el puntaje maximo");
+				System.out.println("Elegi el puntaje maximo");
 				System.out.println("1) 15 puntos");
 				System.out.println("2) 30 puntos");
 				System.out.println("Ingresa tu opcion:");
