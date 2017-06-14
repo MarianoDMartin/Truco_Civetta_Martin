@@ -66,30 +66,33 @@ public class Juego implements java.io.Serializable{
 	}
 	
 //Metodos de la clase
-	public  void pausa(){ 
-		try { 
-			Thread.sleep(50000); 
-		} catch (Exception ignored) {} 
-	} 
+	
 	
 	public void EmpezarJuego(){
 		Integer ganadorJugada=0;
 		Integer ronda=0;
 		Integer auxTurno;
-		Integer primerJugador=this.getTurno();
-		Integer primeroDeJugada=primerJugador;
+		Integer primerJugadorDeMano=this.getTurno();
+		Integer primeroDeJugada=primerJugadorDeMano;
 		while ((puntaje1 < puntajeMaximo) && (puntaje2 < puntajeMaximo)){
 			System.out.println("Puntos equipo 1: "+ this.getPuntaje1());
 			System.out.println("Puntos equipo 2: "+ this.getPuntaje2());
 			System.out.println("Comienza el jugador"+(this.getTurno()+1));
 			while(ganadorJugada==0){
-				while( this.getJugada().getJugadores().get(this.getJugada().ultimoTurno(primerJugador)).getEnMesa().size()==ronda){
-					this.getJugada().getJugadores().get(this.getTurno()).elegirCarta();
+				Integer numeroDeTurno=0;
+				while( this.getJugada().getJugadores().get(this.getJugada().ultimoTurno(primerJugadorDeMano)).getEnMesa().size()==ronda){
+					numeroDeTurno++;
+					System.out.println("Turno jugador"+(this.getTurno()+1));
+					
+					this.setJugada(this.getJugada().getJugadores().get(this.getTurno()).jugar(this.getJugada(),numeroDeTurno,ronda));
+					if(this.getJugada().getQuienCantoTruco()==1){
+						ganadorJugada=1;
+					}
 					this.setTurno(this.getJugada().proximoTurno(this.getTurno()));
 				}
 				auxTurno=this.getJugada().verificarRonda(ronda);
 				if (auxTurno!=-1){
-					primerJugador=auxTurno;
+					primerJugadorDeMano=auxTurno;
 					this.setTurno(auxTurno);
 					System.out.println("Ganador de la ronda: Jugador"+(auxTurno+1));
 				}
@@ -116,7 +119,7 @@ public class Juego implements java.io.Serializable{
 			}
 			
 			this.setTurno(jugada.proximoTurno(primeroDeJugada));
-			primerJugador=this.getTurno();
+			primerJugadorDeMano=this.getTurno();
 			ganadorJugada=0;
 			ronda=0;
 			this.getJugada().nuevaJugada();

@@ -13,6 +13,8 @@ public class Jugada implements java.io.Serializable{
 	private Integer ronda1;
 	private Integer ronda2;
 	private Integer ronda3;
+	private Integer puntosTruco;
+	private Integer quienCantoTruco;
 	
 //constructores	
 	public Jugada(Integer cantidadJugadores){
@@ -21,6 +23,8 @@ public class Jugada implements java.io.Serializable{
 		this.setRonda1(-1);
 		this.setRonda2(-1);
 		this.setRonda3(-1);
+		this.setPuntosTruco(1);
+		this.setQuienCantoTruco(0);
 		for(Integer i=1;i<=cantidadJugadores;i++){
 			this.getJugadores().add(new Jugador(i,this.getMazo()));
 			this.eliminarManoDelMazo(this.getJugadores().get(i-1).getMano());
@@ -33,6 +37,22 @@ public class Jugada implements java.io.Serializable{
 		return this.mazo;
 	}
 	
+	public Integer getPuntosTruco() {
+		return puntosTruco;
+	}
+
+	public void setPuntosTruco(Integer puntosTruco) {
+		this.puntosTruco = puntosTruco;
+	}
+
+	public Integer getQuienCantoTruco() {
+		return quienCantoTruco;
+	}
+
+	public void setQuienCantoTruco(Integer quienCantoTruco) {
+		this.quienCantoTruco = quienCantoTruco;
+	}
+
 	public Integer getRonda1() {
 		return ronda1;
 	}

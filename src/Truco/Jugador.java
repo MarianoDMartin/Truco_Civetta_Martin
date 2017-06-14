@@ -69,15 +69,63 @@ public class Jugador implements java.io.Serializable{
 			System.out.println(i+1 + ")" + this.getMano().get(i));
 		}
 	}
+	
 	public  void pausa(){ 
 		try { 
 			Thread.sleep(3000); 
 		} catch (Exception ignored) {} 
 	} 
 	
+	public Jugada cantarTruco(Jugada jugada){
+			System.out.println("QUIERO!!");
+			jugada.setPuntosTruco(2);
+			jugada.setQuienCantoTruco(2);
+		return jugada;
+	}
+	
+	public Jugada jugar(Jugada jugada,Integer numeroDeTurno,Integer ronda){
+		Boolean trucoDisponible =false;
+		if(jugada.getPuntosTruco()==1){
+			trucoDisponible=true;
+		}
+		else{
+			if(jugada.getPuntosTruco()<4){
+				if( ((jugada.getQuienCantoTruco()==1) && ( (this.getId()==1)||(this.getId()==3)||(this.getId()==5)) || ((jugada.getQuienCantoTruco()==2) && ( (this.getId()==2)||(this.getId()==4)||(this.getId()==6)))) ){
+					trucoDisponible=true;
+				}
+			}
+		}
+		if(this.getId()==1){
+			if (trucoDisponible){
+				System.out.println("1)Elegir carta a tirar \n2)Cantar Truco \nIngrese su opcion:");
+				if(Teclado.pedirEntrada(2)==1){
+					this.elegirCarta();
+				}
+				else{
+					jugada.setQuienCantoTruco(1);
+					jugada=this.cantarTruco(jugada);
+					if(jugada.getQuienCantoTruco()==2){
+						this.elegirCarta();
+					}
+					else{
+						return jugada;
+					}
+				}
+				
+			}
+			else{
+				this.elegirCarta();
+			}
+		}
+		else{
+			this.elegirCarta();
+		}
+		return jugada;
+		
+	}
+	
 	public void elegirCarta(){
 		Integer naipeElegido=0;
-		System.out.println("Turno jugador"+this.getId());
 		Naipe naipe;
 		if (this.getId().equals(1)){
 			mostrarMano();
