@@ -25,9 +25,14 @@ public class Jugada implements java.io.Serializable{
 		this.setRonda3(-1);
 		this.setPuntosTruco(1);
 		this.setQuienCantoTruco(0);
+		Integer equipo=1;
 		for(Integer i=1;i<=cantidadJugadores;i++){
-			this.getJugadores().add(new Jugador(i,this.getMazo()));
+			this.getJugadores().add(new Jugador(i,this.getMazo(),equipo));
 			this.eliminarManoDelMazo(this.getJugadores().get(i-1).getMano());
+			if (equipo==1)
+				equipo=2;
+			else
+				equipo=1;
 		}
 	}
 
@@ -208,9 +213,14 @@ public class Jugada implements java.io.Serializable{
 		this.setRonda3(-1);
 		this.setPuntosTruco(1);
 		this.setQuienCantoTruco(0);
+		Integer equipo=1;
 		for(Integer i=1;i<=cantidadJugadores;i++){
-			this.getJugadores().add(new Jugador(i,this.getMazo()));
+			this.getJugadores().add(new Jugador(i,this.getMazo(),equipo));
 			this.eliminarManoDelMazo(this.getJugadores().get(i-1).getMano());
+			if (equipo==1)
+				equipo=2;
+			else
+				equipo=1;
 		}
 	}
 	

@@ -10,13 +10,15 @@ public class Jugador implements java.io.Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer id;
+	private Integer equipo;
 	private ArrayList<Naipe> mano;
 	private ArrayList<Naipe> enMesa;
 	
 //constructores
-	public Jugador(Integer id,Mazo mazo){
+	public Jugador(Integer id,Mazo mazo, Integer equipo){
 		Integer naipe=0;
 		this.setId(id);
+		this.setEquipo(equipo);
 		this.setMano(new ArrayList<Naipe>());
 		this.setEnMesa(new ArrayList<Naipe>());
 		Random rand = new Random();
@@ -29,8 +31,21 @@ public class Jugador implements java.io.Serializable{
 	}
 	
 //getters y setters	
+	
 	public ArrayList<Naipe> getEnMesa() {
 		return enMesa;
+	}
+
+	public Integer getEquipo() {
+		return equipo;
+	}
+
+	public void setEquipo(Integer equipo) {
+		this.equipo = equipo;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public void setEnMesa(ArrayList<Naipe> enMesa) {
@@ -79,7 +94,7 @@ public class Jugador implements java.io.Serializable{
 		} catch (Exception ignored) {} 
 	} 
 	
-	public Jugada cantarTruco(Jugada jugada){
+	public Jugada responderTrucoPc(Jugada jugada){
 		Random rand = new Random();
 		if (rand.nextInt(3)==0){
 			System.out.println("QUIERO!!");
@@ -100,22 +115,21 @@ public class Jugador implements java.io.Serializable{
 		}
 		else{
 			if(jugada.getPuntosTruco()<4){
-				if( ((jugada.getQuienCantoTruco()==1) && ( (this.getId()==1)||(this.getId()==3)||(this.getId()==5)) || ((jugada.getQuienCantoTruco()==2) && ( (this.getId()==2)||(this.getId()==4)||(this.getId()==6)))) ){
+				if( jugada.getQuienCantoTruco() != this.getEquipo() ){
 					trucoDisponible=true;
 				}
 			}
 		}
-		if(this.getId()==1){
-			if (trucoDisponible){
-				if(this.getId()==1)
-					mostrarMano(false);
+		if (trucoDisponible){
+			if(this.getId()==1){
+				this.mostrarMano(false);
 				System.out.println("1)Elegir carta a tirar \n2)Cantar Truco \nIngrese su opcion:");
 				if(Teclado.pedirEntrada(2)==1){
 					this.elegirCarta();
 				}
 				else{
 					jugada.setQuienCantoTruco(1);
-					jugada=this.cantarTruco(jugada);
+					jugada=this.responderTrucoPc(jugada);
 					if(jugada.getQuienCantoTruco()==2){
 						this.elegirCarta();
 					}
@@ -125,13 +139,11 @@ public class Jugador implements java.io.Serializable{
 				}
 				
 			}
-			else{
-				this.elegirCarta();
-			}
 		}
 		else{
 			this.elegirCarta();
 		}
+		
 		return jugada;
 		
 	}

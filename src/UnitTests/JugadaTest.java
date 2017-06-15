@@ -18,6 +18,7 @@ public class JugadaTest {
 	public void testJugada() {
 		jugada=new Jugada(2);
 		assertTrue(jugada.getJugadores().size()==2 && jugada.getRonda1()==-1 && jugada.getRonda2()==-1 && jugada.getRonda3()==-1);
+		assertTrue(jugada.getJugadores().get(0).getEquipo()==1 && jugada.getJugadores().get(1).getEquipo()==2 );
 		jugada=new Jugada(4);
 		assertTrue(jugada.getJugadores().size()==4 && jugada.getRonda1()==-1 && jugada.getRonda2()==-1 && jugada.getRonda3()==-1);
 		jugada=new Jugada(6);

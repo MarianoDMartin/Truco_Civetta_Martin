@@ -15,17 +15,17 @@ public class JugadorTest {
 	Jugador jugador;
 	@Test
 	public void testJugador() {
-		jugador=new Jugador(1,new Mazo());
+		jugador=new Jugador(1,new Mazo(),1);
 		assertTrue(jugador.getId()==1 && jugador.getEnMesa().size()==0 && jugador.getMano().size()==3);
-		jugador=new Jugador(2,new Mazo());
+		jugador=new Jugador(2,new Mazo(),2);
 		assertTrue(jugador.getId()==2 && jugador.getEnMesa().size()==0 && jugador.getMano().size()==3);
-		jugador=new Jugador(3,new Mazo());
+		jugador=new Jugador(3,new Mazo(),1);
 		assertTrue(jugador.getId()==3 && jugador.getEnMesa().size()==0 && jugador.getMano().size()==3);
 	}
 
 	@Test
 	public void testGetEnMesa() {
-		jugador=new Jugador(1,new Mazo());
+		jugador=new Jugador(1,new Mazo(),1);
 		assertTrue(jugador.getEnMesa().size()==0);
 		jugador.getEnMesa().add(new Naipe(Naipe.Palos.Basto,1));
 		assertTrue(jugador.getEnMesa().size()==1);
@@ -35,7 +35,7 @@ public class JugadorTest {
 
 	@Test
 	public void testSetEnMesa() {
-		jugador=new Jugador(1,new Mazo());
+		jugador=new Jugador(1,new Mazo(),1);
 		ArrayList<Naipe> mano=new ArrayList<Naipe>();
 		mano.add(new Naipe(Naipe.Palos.Basto,1));
 		jugador.setEnMesa(mano);
@@ -47,7 +47,7 @@ public class JugadorTest {
 
 	@Test
 	public void testGetMano() {
-		jugador=new Jugador(1,new Mazo());
+		jugador=new Jugador(1,new Mazo(),1);
 		ArrayList<Naipe> mano=new ArrayList<Naipe>();
 		mano.add(new Naipe(Naipe.Palos.Basto,1));
 		jugador.setMano(mano);
@@ -59,7 +59,7 @@ public class JugadorTest {
 
 	@Test
 	public void testSetMano() {
-		jugador=new Jugador(1,new Mazo());
+		jugador=new Jugador(1,new Mazo(),1);
 		ArrayList<Naipe> mano=new ArrayList<Naipe>();
 		mano.add(new Naipe(Naipe.Palos.Basto,1));
 		jugador.setMano(mano);
@@ -71,7 +71,7 @@ public class JugadorTest {
 
 	@Test
 	public void testGetId() {
-		jugador=new Jugador(1,new Mazo());
+		jugador=new Jugador(1,new Mazo(),1);
 		assertTrue(jugador.getId()==1);
 		jugador.setId(2);
 		assertTrue(jugador.getId()==2);
@@ -83,7 +83,7 @@ public class JugadorTest {
 
 	@Test
 	public void testSetId() {
-		jugador=new Jugador(1,new Mazo());
+		jugador=new Jugador(1,new Mazo(),1);
 		jugador.setId(1);
 		assertTrue(jugador.getId()==1);
 		jugador.setId(2);
@@ -96,7 +96,7 @@ public class JugadorTest {
 
 	@Test
 	public void testToString() {
-		jugador=new Jugador(1,new Mazo());
+		jugador=new Jugador(1,new Mazo(),1);
 		ArrayList<Naipe> mano=new ArrayList<Naipe>();
 		mano.add(new Naipe(Naipe.Palos.Basto,1));
 		mano.add(new Naipe(Naipe.Palos.Basto,2));
@@ -106,7 +106,7 @@ public class JugadorTest {
 
 	@Test
 	public void testElegirCarta() {
-		jugador=new Jugador(2,new Mazo());
+		jugador=new Jugador(2,new Mazo(),2);
 		ArrayList<Naipe> mano=new ArrayList<Naipe>();
 		mano.add(new Naipe(Naipe.Palos.Basto,1));
 		mano.add(new Naipe(Naipe.Palos.Basto,2));
