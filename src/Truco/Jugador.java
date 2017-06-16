@@ -27,7 +27,6 @@ public class Jugador implements java.io.Serializable{
 			this.getMano().add((mazo.getNaipes().get(naipe)));
 			mazo.getNaipes().remove(mazo.getNaipes().get(naipe));
 		}
-
 	}
 	
 //getters y setters	
@@ -88,24 +87,49 @@ public class Jugador implements java.io.Serializable{
 		}
 	}
 	
-	public  void pausa(){ 
+	public  void pausa(Integer segundos){ 
 		try { 
-			Thread.sleep(3000); 
+			Thread.sleep(segundos*1000); 
 		} catch (Exception ignored) {} 
 	} 
 	
 	public Jugada responderTrucoPc(Jugada jugada){
 		Random rand = new Random();
-		if (rand.nextInt(3)==0){
-			System.out.println("-Equipo2: QUIERO!!");
+		Boolean trucoDisponible=false;
+		Integer opcion;
+		if(jugada.getPuntosTruco()<3){
+			trucoDisponible=true;
+		}
+		if (trucoDisponible){
+			opcion=rand.nextInt(3);
+		}
+		else{
+			opcion=rand.nextInt(2);
+		}
+		if(opcion==0){
+			System.out.println("Equipo2: QUIERO!!");
 			jugada.setPuntosTruco(jugada.getPuntosTruco()+1);
 			jugada.setQuienCantoTruco(2);
 		}
 		else{
-			System.out.println("No quiero...");
+			if(opcion==1){
+				System.out.println("Equipo2: No quiero...");
+				jugada.setNoSeQuiere(true);
+				return jugada;
+			}
+			else{
+				jugada.setPuntosTruco(jugada.getPuntosTruco()+1);
+				this.cantarTruco(jugada,2);
+				jugada.setQuienCantoTruco(2);
+				jugada=responderTrucoUser(jugada);
+				if(jugada.getNoSeQuiere()){
+					return jugada;
+				}
+			}
 		}
 		return jugada;
 	}
+	
 	public void cantarTruco(Jugada jugada,Integer equipo){
 		switch(jugada.getPuntosTruco()){
 			case 1:
@@ -120,8 +144,8 @@ public class Jugador implements java.io.Serializable{
 	}
 	
 	public Jugada responderTrucoUser(Jugada jugada){
-		if(jugada.getPuntosTruco()<4){
-			System.out.println("1) QUIERO \n2) No quiero... 3) Cantar siguiente \nIngrese su opcion:");
+		if((jugada.getPuntosTruco())<3){
+			System.out.println("1) QUIERO \n2) No quiero... \n3) Cantar siguiente \nIngrese su opcion:");
 			Integer opcion=Teclado.pedirEntrada(3);
 			if(opcion==1){
 				System.out.println("Equipo1: QUIERO!!");
@@ -131,14 +155,30 @@ public class Jugador implements java.io.Serializable{
 			else{
 				if(opcion==2){
 					System.out.println("Equipo1: No quiero...");
+					jugada.setNoSeQuiere(true);
 					return jugada;
 				}
 				else{
-					this.cantarTruco(jugada,1);
 					jugada.setPuntosTruco(jugada.getPuntosTruco()+1);
+					this.cantarTruco(jugada,1);
 					jugada.setQuienCantoTruco(1);
 					jugada=responderTrucoPc(jugada);
+					if(jugada.getNoSeQuiere()){
+						return jugada;
+					}
 				}
+			}
+		}
+		else{
+			System.out.println("1) QUIERO \n2) No quiero... \nIngrese su opcion:");
+			Integer opcion=Teclado.pedirEntrada(2);
+			if(opcion==1){
+				System.out.println("Equipo1: QUIERO!!");
+				jugada.setPuntosTruco(jugada.getPuntosTruco()+1);
+				jugada.setQuienCantoTruco(1);
+			}
+			else{
+				return jugada;
 			}
 		}
 		return jugada;
@@ -147,6 +187,7 @@ public class Jugador implements java.io.Serializable{
 	public Jugada jugar(Jugada jugada,Integer numeroDeTurno,Integer ronda){
 		Random rand = new Random();
 		Boolean trucoDisponible =false;
+		//verificamos si se puede cantar truco
 		if(jugada.getPuntosTruco()==1){
 			trucoDisponible=true;
 		}
@@ -157,19 +198,20 @@ public class Jugador implements java.io.Serializable{
 				}
 			}
 		}
+		//si el truco se puede cantar le damos la opcion al usuario o pc dependiendo del turno
 		if (trucoDisponible){
-			if(this.getId()==1){
+			if(this.getId()==1){ //del equipo 1 solo canta el user
 				this.mostrarMano(false);
 				System.out.println("1)Elegir carta a tirar \n2)Cantar Truco \nIngrese su opcion:");
 				if(Teclado.pedirEntrada(2)==1){
 					this.elegirCarta();
 				}
 				else{
-					cantarTruco(jugada,1);
-					jugada.setQuienCantoTruco(this.getEquipo());
+					this.cantarTruco(jugada,1);
+					jugada.setQuienCantoTruco(1);
 					jugada.setSeCantoTruco(true);
 					jugada=this.responderTrucoPc(jugada);
-					if(jugada.getQuienCantoTruco()==2){
+					if(!jugada.getNoSeQuiere()){
 						this.elegirCarta();
 					}
 					else{
@@ -179,19 +221,26 @@ public class Jugador implements java.io.Serializable{
 				
 			}
 			else{
-				if (rand.nextInt(10)==0){
-					jugada.setQuienCantoTruco(this.getEquipo());
-					jugada.setSeCantoTruco(true);
-					this.cantarTruco(jugada,2);
-					jugada=this.responderTrucoUser(jugada);
-					if(jugada.getQuienCantoTruco()==1){
-						this.elegirCarta();
+				if (this.getEquipo()==2){
+					if (rand.nextInt(2)==0){
+						this.cantarTruco(jugada,2);
+						jugada.setQuienCantoTruco(2);
+						jugada.setSeCantoTruco(true);
+						jugada=this.responderTrucoUser(jugada);
+						if(!jugada.getNoSeQuiere()){
+							this.elegirCarta();
+						}
+						else{
+							return jugada;
+						}
 					}
 					else{
-						return jugada;
+						this.elegirCarta();
 					}
 				}
-				elegirCarta();
+				else{
+					this.elegirCarta();
+				}
 			}
 		}
 		else{
@@ -212,7 +261,7 @@ public class Jugador implements java.io.Serializable{
 			this.pasarDeManoAEnMesa(naipe);
 		}
 		else{
-			pausa();
+			pausa(3);
 			naipe=mano.get(0);
 			this.pasarDeManoAEnMesa(naipe);
 		}

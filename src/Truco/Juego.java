@@ -85,11 +85,8 @@ public class Juego implements java.io.Serializable{
 					System.out.println("Turno jugador"+(this.getTurno()+1));
 					this.getJugada().setSeCantoTruco(false);
 					this.setJugada(this.getJugada().getJugadores().get(this.getTurno()).jugar(this.getJugada(),numeroDeTurno,ronda));
-					//arreglar el if
-					if(this.getJugada().getSeCantoTruco()){
-						if(this.getJugada().getQuienCantoTruco()==this.getJugada().getJugadores().get(this.getTurno()).getEquipo()){
-							ganadorJugada=this.getJugada().getJugadores().get(this.getTurno()).getEquipo();
-						}
+					if (this.getJugada().getSeCantoTruco() && this.getJugada().getNoSeQuiere()){
+						ganadorJugada=this.getJugada().getQuienCantoTruco();
 					}
 					this.setTurno(this.getJugada().proximoTurno(this.getTurno()));
 				}
@@ -131,6 +128,8 @@ public class Juego implements java.io.Serializable{
 			ronda=0;
 			Integer cantidadJugadores=this.getJugada().getJugadores().size();
 			this.setJugada(Jugada.nuevaJugada(cantidadJugadores));
+			System.out.println("Puntos equipo 1: "+ this.getPuntaje1());
+			System.out.println("Puntos equipo 2: "+ this.getPuntaje2());
 			System.out.println("1)Seguir Jugando \n2)Guardar y salir \nIngresa tu opcion:");
 			if(Teclado.pedirEntrada(2)==2){
 				Archivos.guardarJuego(this);

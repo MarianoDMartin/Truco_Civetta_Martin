@@ -16,6 +16,7 @@ public class Jugada implements java.io.Serializable{
 	private Integer puntosTruco;
 	private Integer quienCantoTruco;
 	private Boolean seCantoTruco;
+	private Boolean noSeQuiere;
 
 	//constructores	
 	public Jugada(Integer cantidadJugadores){
@@ -27,6 +28,7 @@ public class Jugada implements java.io.Serializable{
 		this.setPuntosTruco(1);
 		this.setQuienCantoTruco(0);
 		this.setSeCantoTruco(false);
+		this.setNoSeQuiere(false);
 		Integer equipo=1;
 		for(Integer i=1;i<=cantidadJugadores;i++){
 			this.getJugadores().add(new Jugador(i,this.getMazo(),equipo));
@@ -36,9 +38,17 @@ public class Jugada implements java.io.Serializable{
 	}
 
 	//getters y setters	
-
+	
 	public Mazo getMazo() {
 		return this.mazo;
+	}
+
+	public Boolean getNoSeQuiere() {
+		return noSeQuiere;
+	}
+
+	public void setNoSeQuiere(Boolean noSeQuiere) {
+		this.noSeQuiere = noSeQuiere;
 	}
 
 	public Boolean getSeCantoTruco() {
