@@ -3,7 +3,7 @@ package Truco;
 import java.util.ArrayList;
 
 public class Jugada implements java.io.Serializable{
-	
+
 	/**
 	 * 
 	 */
@@ -15,8 +15,9 @@ public class Jugada implements java.io.Serializable{
 	private Integer ronda3;
 	private Integer puntosTruco;
 	private Integer quienCantoTruco;
-	
-//constructores	
+	private Boolean seCantoTruco;
+
+	//constructores	
 	public Jugada(Integer cantidadJugadores){
 		this.setMazo(new Mazo());
 		this.setJugadores(new ArrayList<Jugador>());
@@ -25,23 +26,29 @@ public class Jugada implements java.io.Serializable{
 		this.setRonda3(-1);
 		this.setPuntosTruco(1);
 		this.setQuienCantoTruco(0);
+		this.setSeCantoTruco(false);
 		Integer equipo=1;
 		for(Integer i=1;i<=cantidadJugadores;i++){
 			this.getJugadores().add(new Jugador(i,this.getMazo(),equipo));
 			this.eliminarManoDelMazo(this.getJugadores().get(i-1).getMano());
-			if (equipo==1)
-				equipo=2;
-			else
-				equipo=1;
+			equipo=(equipo==1)?2:1;
 		}
 	}
 
-//getters y setters	
-	
+	//getters y setters	
+
 	public Mazo getMazo() {
 		return this.mazo;
 	}
-	
+
+	public Boolean getSeCantoTruco() {
+		return this.seCantoTruco;
+	}
+
+	public void setSeCantoTruco(Boolean seCantoTruco) {
+		this.seCantoTruco = seCantoTruco;
+	}
+
 	public Integer getPuntosTruco() {
 		return puntosTruco;
 	}
@@ -85,16 +92,16 @@ public class Jugada implements java.io.Serializable{
 	public void setMazo(Mazo mazo) {
 		this.mazo = mazo;
 	}
-	
+
 	public ArrayList<Jugador> getJugadores() {
 		return this.jugadores;
 	}
-	
+
 	public void setJugadores(ArrayList<Jugador> jugadores) {
 		this.jugadores = jugadores;
 	}
-	
-//Metodos de la clase	
+
+	//Metodos de la clase	
 	public Integer verificarRonda(Integer ronda){
 		Naipe naipeMayor=null;
 		Integer ganadorRonda=null;
@@ -130,7 +137,7 @@ public class Jugada implements java.io.Serializable{
 		}
 		return idGanador;
 	}
-	
+
 	public Integer JugadaTerminada() { //0->Jugada no terminada 1->Jugada ganada por equipo1 2->Jugada ganada por equipo2 3->Jugada para el equipo mano
 		if((this.getRonda1().equals(-1))||(this.getRonda2().equals(-1))){
 			return 0;
@@ -179,13 +186,13 @@ public class Jugada implements java.io.Serializable{
 			}
 		}
 	}
-	
+
 	public void eliminarManoDelMazo(ArrayList<Naipe> mano){
 		for(Integer i=0;i<mano.size();i++){
 			this.getMazo().getNaipes().remove(mano.get(i));
 		}
 	}
-	
+
 	public int ultimoTurno(Integer primerJugador){
 		if(primerJugador==0){
 			return this.getJugadores().size()-1;
@@ -194,7 +201,7 @@ public class Jugada implements java.io.Serializable{
 			return primerJugador-1;
 		}
 	}
-	
+
 	public Integer proximoTurno(Integer turnoActual){
 		if(turnoActual.equals(this.getJugadores().size()-1)){
 			return 0;
@@ -204,24 +211,8 @@ public class Jugada implements java.io.Serializable{
 		}
 	}
 	
-	public void nuevaJugada(){
-		Integer cantidadJugadores=this.getJugadores().size();
-		this.setMazo(new Mazo());
-		this.setJugadores(new ArrayList<Jugador>());
-		this.setRonda1(-1);
-		this.setRonda2(-1);
-		this.setRonda3(-1);
-		this.setPuntosTruco(1);
-		this.setQuienCantoTruco(0);
-		Integer equipo=1;
-		for(Integer i=1;i<=cantidadJugadores;i++){
-			this.getJugadores().add(new Jugador(i,this.getMazo(),equipo));
-			this.eliminarManoDelMazo(this.getJugadores().get(i-1).getMano());
-			if (equipo==1)
-				equipo=2;
-			else
-				equipo=1;
-		}
+	public static Jugada nuevaJugada(Integer cantidadJugadores){
+		return new Jugada(cantidadJugadores);
 	}
-	
+
 }

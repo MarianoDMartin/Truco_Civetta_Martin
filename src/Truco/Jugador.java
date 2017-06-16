@@ -97,8 +97,8 @@ public class Jugador implements java.io.Serializable{
 	public Jugada responderTrucoPc(Jugada jugada){
 		Random rand = new Random();
 		if (rand.nextInt(3)==0){
-			System.out.println("QUIERO!!");
-			jugada.setPuntosTruco(2);
+			System.out.println("-Equipo2: QUIERO!!");
+			jugada.setPuntosTruco(jugada.getPuntosTruco()+1);
 			jugada.setQuienCantoTruco(2);
 		}
 		else{
@@ -106,16 +106,53 @@ public class Jugador implements java.io.Serializable{
 		}
 		return jugada;
 	}
+	public void cantarTruco(Jugada jugada,Integer equipo){
+		switch(jugada.getPuntosTruco()){
+			case 1:
+				System.out.println("-Equipo"+equipo+": TRUCO!!");
+				break;
+			case 2:
+				System.out.println("-Equipo"+equipo+": QUIERO RE TRUCO!!");
+				break;
+			case 3:
+				System.out.println("-Equipo"+equipo+": QUIERO VALE 4!!");
+		}
+	}
+	
+	public Jugada responderTrucoUser(Jugada jugada){
+		if(jugada.getPuntosTruco()<4){
+			System.out.println("1) QUIERO \n2) No quiero... 3) Cantar siguiente \nIngrese su opcion:");
+			Integer opcion=Teclado.pedirEntrada(3);
+			if(opcion==1){
+				System.out.println("Equipo1: QUIERO!!");
+				jugada.setPuntosTruco(jugada.getPuntosTruco()+1);
+				jugada.setQuienCantoTruco(1);
+			}
+			else{
+				if(opcion==2){
+					System.out.println("Equipo1: No quiero...");
+					return jugada;
+				}
+				else{
+					this.cantarTruco(jugada,1);
+					jugada.setPuntosTruco(jugada.getPuntosTruco()+1);
+					jugada.setQuienCantoTruco(1);
+					jugada=responderTrucoPc(jugada);
+				}
+			}
+		}
+		return jugada;
+	}
 	
 	public Jugada jugar(Jugada jugada,Integer numeroDeTurno,Integer ronda){
-		
+		Random rand = new Random();
 		Boolean trucoDisponible =false;
 		if(jugada.getPuntosTruco()==1){
 			trucoDisponible=true;
 		}
 		else{
 			if(jugada.getPuntosTruco()<4){
-				if( jugada.getQuienCantoTruco() != this.getEquipo() ){
+				if( (jugada.getQuienCantoTruco() == this.getEquipo()) || (jugada.getQuienCantoTruco()==0) ){
 					trucoDisponible=true;
 				}
 			}
@@ -128,7 +165,9 @@ public class Jugador implements java.io.Serializable{
 					this.elegirCarta();
 				}
 				else{
-					jugada.setQuienCantoTruco(1);
+					cantarTruco(jugada,1);
+					jugada.setQuienCantoTruco(this.getEquipo());
+					jugada.setSeCantoTruco(true);
 					jugada=this.responderTrucoPc(jugada);
 					if(jugada.getQuienCantoTruco()==2){
 						this.elegirCarta();
@@ -139,13 +178,26 @@ public class Jugador implements java.io.Serializable{
 				}
 				
 			}
+			else{
+				if (rand.nextInt(10)==0){
+					jugada.setQuienCantoTruco(this.getEquipo());
+					jugada.setSeCantoTruco(true);
+					this.cantarTruco(jugada,2);
+					jugada=this.responderTrucoUser(jugada);
+					if(jugada.getQuienCantoTruco()==1){
+						this.elegirCarta();
+					}
+					else{
+						return jugada;
+					}
+				}
+				elegirCarta();
+			}
 		}
 		else{
 			this.elegirCarta();
 		}
-		
 		return jugada;
-		
 	}
 	
 	public void elegirCarta(){
