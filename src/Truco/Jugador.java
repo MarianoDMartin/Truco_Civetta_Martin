@@ -21,9 +21,8 @@ public class Jugador implements java.io.Serializable{
 		this.setEquipo(equipo);
 		this.setMano(new ArrayList<Naipe>());
 		this.setEnMesa(new ArrayList<Naipe>());
-		Random rand = new Random();
 		for(Integer i=0;i<3;i++){
-			naipe=rand.nextInt(mazo.getNaipes().size());
+			naipe=Teclado.obtenerRandom((mazo.getNaipes().size()));
 			this.getMano().add((mazo.getNaipes().get(naipe)));
 			mazo.getNaipes().remove(mazo.getNaipes().get(naipe));
 		}

@@ -1,8 +1,15 @@
 package Truco;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Teclado {
+	
+	private static ArrayList<Integer> randoms=new ArrayList<Integer>();
+	private static Integer randomActual=0;
+	private static ArrayList<String> entradasTest=new ArrayList<String>();
+	private static Integer entradaActual=0;
 	
 	private static boolean isNumeric(String cadena){
 		try {
@@ -13,6 +20,27 @@ public class Teclado {
 		}
 	}
 	
+	public static void agregarEntrada(String valor){
+		entradasTest.add(valor);
+	}
+	
+	public static void agregarRandom(Integer valor){
+		randoms.add(valor);
+	}
+	
+	public static Integer obtenerRandom(Integer rango){
+		Integer valor;
+		if(randomActual<randoms.size()){
+			valor=randoms.get(randomActual);
+			randomActual++;
+		}
+		else{
+			Random rand= new Random();
+			return rand.nextInt(rango);
+		}
+		return valor;
+	}
+	
 	public static Integer pedirEntrada(Integer opcionMaxima){
 		Boolean valorCorrecto=false;
 		Integer opcion=0;
@@ -20,8 +48,13 @@ public class Teclado {
 		Scanner teclado = new Scanner (System.in);
 		String entrada = null;
 		while(!valorCorrecto){
-			entrada = teclado.nextLine();
-			
+			if(entradaActual<entradasTest.size()){
+				entrada=entradasTest.get(entradaActual);
+				entradaActual++;
+			}
+			else{
+				entrada = teclado.nextLine();
+			}
 			if(isNumeric(entrada)){
 				opcion=Integer.parseInt(entrada);
 				if((opcion<=opcionMaxima)&&(opcion>=1)){
@@ -53,6 +86,13 @@ public class Teclado {
 			}
 		}
 		return archivo;
+	}
+	
+	public static void nuevoTeclado(){
+		entradasTest=new ArrayList<String>();
+		entradaActual=0;
+		randomActual=0;
+		randoms=new ArrayList<Integer>();
 	}
 	
 }

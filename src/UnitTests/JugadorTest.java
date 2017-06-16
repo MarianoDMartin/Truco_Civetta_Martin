@@ -9,13 +9,21 @@ import org.junit.Test;
 import Truco.Jugador;
 import Truco.Mazo;
 import Truco.Naipe;
+import Truco.Teclado;
 
 public class JugadorTest {
 	
 	Jugador jugador;
 	@Test
 	public void testJugador() {
+		Teclado.nuevoTeclado();
+		Teclado.agregarRandom(0);
+		Teclado.agregarRandom(0);
+		Teclado.agregarRandom(0);
 		jugador=new Jugador(1,new Mazo(),1);
+		assertTrue(jugador.getMano().get(0).equals(new Naipe(Naipe.Palos.Basto,1)));
+		assertTrue(jugador.getMano().get(1).equals(new Naipe(Naipe.Palos.Basto,2)));
+		assertTrue(jugador.getMano().get(2).equals(new Naipe(Naipe.Palos.Basto,3)));
 		assertTrue(jugador.getId()==1 && jugador.getEnMesa().size()==0 && jugador.getMano().size()==3);
 		jugador=new Jugador(2,new Mazo(),2);
 		assertTrue(jugador.getId()==2 && jugador.getEnMesa().size()==0 && jugador.getMano().size()==3);
@@ -106,14 +114,19 @@ public class JugadorTest {
 
 	@Test
 	public void testElegirCarta() {
-		jugador=new Jugador(2,new Mazo(),2);
+		Teclado.nuevoTeclado();
+		jugador=new Jugador(1,new Mazo(),1);
 		ArrayList<Naipe> mano=new ArrayList<Naipe>();
 		mano.add(new Naipe(Naipe.Palos.Basto,1));
 		mano.add(new Naipe(Naipe.Palos.Basto,2));
 		mano.add(new Naipe(Naipe.Palos.Basto,3));
 		jugador.setMano(mano);
+		Teclado.agregarEntrada("2");
 		jugador.elegirCarta();
-		assertTrue(jugador.getMano().equals(mano));
+		assertTrue(jugador.getEnMesa().get(0).equals((new Naipe(Naipe.Palos.Basto,2))));
+		Teclado.agregarEntrada("1");
+		jugador.elegirCarta();
+		assertTrue(jugador.getEnMesa().get(1).equals((new Naipe(Naipe.Palos.Basto,1))));
 	}
 
 }
