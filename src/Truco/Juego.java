@@ -77,7 +77,7 @@ public class Juego implements java.io.Serializable{
 		while ((puntaje1 < puntajeMaximo) && (puntaje2 < puntajeMaximo)){
 			System.out.println("Puntos equipo 1: "+ this.getPuntaje1());
 			System.out.println("Puntos equipo 2: "+ this.getPuntaje2());
-			System.out.println("Comienza el jugador"+(this.getTurno()+1));
+			System.out.println("Comienza el jugador"+this.getJugada().getJugadores().get(this.getTurno()).getId()+" Equipo"+this.getJugada().getJugadores().get(this.getTurno()).getEquipo());
 			while(ganadorJugada==0){
 				Integer numeroDeTurno=0;
 				while( ganadorJugada==0 && ( this.getJugada().getJugadores().get(this.getJugada().ultimoTurno(primerJugadorDeMano)).getEnMesa().size()==ronda) ){
@@ -95,7 +95,7 @@ public class Juego implements java.io.Serializable{
 					if (auxTurno!=-1){
 						primerJugadorDeMano=auxTurno;
 						this.setTurno(auxTurno);
-						System.out.println("Ganador de la ronda: Jugador"+(auxTurno+1));
+						System.out.println("Ganador de la ronda: Jugador"+this.getJugada().getJugadores().get(auxTurno).getId()+" Equipo"+this.getJugada().getJugadores().get(auxTurno).getEquipo());
 					}
 					else{
 						System.out.println("Parda!");

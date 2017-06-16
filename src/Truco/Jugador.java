@@ -265,6 +265,6 @@ public class Jugador implements java.io.Serializable{
 			naipe=mano.get(0);
 			this.pasarDeManoAEnMesa(naipe);
 		}
-		System.out.println("Elijo el naipe "+naipe);
+		System.out.println("Jugador"+this.getId()+": Elijo el naipe "+naipe);
 	}
 }
