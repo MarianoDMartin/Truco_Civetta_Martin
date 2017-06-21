@@ -18,6 +18,7 @@ public class Jugada implements java.io.Serializable{
 	private Boolean seCantoTruco;
 	private Boolean noSeQuiere;
 	private Boolean envido;
+	private Integer puntosEnvido;
 
 	//constructores	
 	public Jugada(Integer cantidadJugadores){
@@ -30,6 +31,8 @@ public class Jugada implements java.io.Serializable{
 		this.setQuienCantoTruco(0);
 		this.setSeCantoTruco(false);
 		this.setNoSeQuiere(false);
+		this.setEnvido(false);
+		this.setPuntosEnvido(0);
 		Integer equipo=1;
 		for(Integer i=1;i<=cantidadJugadores;i++){
 			this.getJugadores().add(new Jugador(i,this.getMazo(),equipo));
@@ -42,6 +45,14 @@ public class Jugada implements java.io.Serializable{
 	
 	public Mazo getMazo() {
 		return this.mazo;
+	}
+
+	public Integer getPuntosEnvido() {
+		return puntosEnvido;
+	}
+
+	public void setPuntosEnvido(Integer puntosEnvido) {
+		this.puntosEnvido = puntosEnvido;
 	}
 
 	public Boolean getEnvido() {
@@ -120,7 +131,22 @@ public class Jugada implements java.io.Serializable{
 		this.jugadores = jugadores;
 	}
 
-	//Metodos de la clase	
+	//Metodos de la clase
+	public Integer envido(Integer primeroDeJugada){
+		Integer cantadosEquipo1=0;
+		Integer cantadosEquipo2=0;
+		Integer cantadosContario=0;
+		Integer ganador=primeroDeJugada;
+		Integer turno=primeroDeJugada;
+		System.out.println("Jugador"+this.getJugadores().get(primeroDeJugada).getId()+": "+this.getJugadores().get(primeroDeJugada).getEnvido());
+//		if(this.getJugadores().get(primeroDeJugada).getEquipo())
+//		while (cantadosContario<(this.getJugadores().size()/2)){
+//			
+//		}
+		
+		return 1;
+	}
+	
 	public Integer verificarRonda(Integer ronda){
 		Naipe naipeMayor=null;
 		Integer ganadorRonda=null;

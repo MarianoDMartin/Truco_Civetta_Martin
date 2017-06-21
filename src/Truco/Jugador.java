@@ -26,7 +26,7 @@ public class Jugador implements java.io.Serializable{
 			this.getMano().add((mazo.getNaipes().get(naipe)));
 			mazo.getNaipes().remove(mazo.getNaipes().get(naipe));
 		}
-		
+		this.setEnvido(this.puntosEnvido());
 	}
 	
 //getters y setters	
@@ -76,14 +76,95 @@ public class Jugador implements java.io.Serializable{
 	}
 	
 //Metodos de la clase
-	private Integer puntosEnvido(){
+	public Integer puntosEnvido(){
+		Integer naipe1;
+		Integer naipe2;
+		Integer puntos;
 		if(this.getMano().get(0).getPalo().equals(this.getMano().get(1).getPalo()) && this.getMano().get(0).getPalo().equals(this.getMano().get(2).getPalo())){
 			if(this.getMano().get(0).getValor()>=10){
-				
+				naipe1=this.getMano().get(1).getValor();
+				naipe2=this.getMano().get(2).getValor();
+			}
+			else{
+				if(this.getMano().get(1).getValor()>=10){
+					naipe1=this.getMano().get(0).getValor();
+					naipe2=this.getMano().get(2).getValor();
+				}
+				else{
+					if(this.getMano().get(2).getValor()>=10){
+						naipe1=this.getMano().get(0).getValor();
+						naipe2=this.getMano().get(1).getValor();
+					}
+					else{
+						if(this.getMano().get(0).getValor()<this.getMano().get(1).getValor() && this.getMano().get(0).getValor()<this.getMano().get(2).getValor()){
+							naipe1=this.getMano().get(1).getValor();
+							naipe2=this.getMano().get(2).getValor();
+						}
+						else{
+							if(this.getMano().get(1).getValor()<this.getMano().get(0).getValor() && this.getMano().get(1).getValor()<this.getMano().get(2).getValor()){
+								naipe1=this.getMano().get(0).getValor();
+								naipe2=this.getMano().get(2).getValor();
+							}
+							else{
+								naipe1=this.getMano().get(0).getValor();
+								naipe2=this.getMano().get(1).getValor();
+							}
+						}
+					}
+				}
 			}
 		}
-		return 1;
+		else{
+			if(this.getMano().get(0).getPalo().equals(this.getMano().get(1).getPalo())){
+				naipe1=this.getMano().get(0).getValor();
+				naipe2=this.getMano().get(1).getValor();
+			}
+			else{
+				if(this.getMano().get(0).getPalo().equals(this.getMano().get(2).getPalo())){
+					naipe1=this.getMano().get(0).getValor();
+					naipe2=this.getMano().get(2).getValor();
+				}
+				else{
+					if(this.getMano().get(1).getPalo().equals(this.getMano().get(2).getPalo())){
+						naipe1=this.getMano().get(0).getValor();
+						naipe2=this.getMano().get(2).getValor();
+					}
+					else{
+						if( (this.getMano().get(0).getValor()>this.getMano().get(1).getValor() || this.getMano().get(1).getValor()>=10) && (this.getMano().get(0).getValor()>this.getMano().get(2).getValor() || this.getMano().get(2).getValor()>=10) && (this.getMano().get(0).getValor()<10)){
+							return this.getMano().get(0).getValor();
+						}
+						else{
+							if( (this.getMano().get(1).getValor()>this.getMano().get(0).getValor() || this.getMano().get(0).getValor()>=10) && (this.getMano().get(1).getValor()>this.getMano().get(2).getValor() || this.getMano().get(2).getValor()>=10) && (this.getMano().get(1).getValor()<10)){
+								return this.getMano().get(1).getValor();
+							}
+							else{
+								if( (this.getMano().get(2).getValor()>this.getMano().get(0).getValor() || this.getMano().get(0).getValor()>=10) && (this.getMano().get(2).getValor()>this.getMano().get(1).getValor() || this.getMano().get(1).getValor()>=10) && (this.getMano().get(2).getValor()<10)){
+									return this.getMano().get(2).getValor();
+								}
+								else{
+									return 0;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if(naipe1>=10){
+			puntos=naipe1-10;
+		}
+		else{
+			puntos=naipe1;
+		}
+		if(naipe2>=10){
+			puntos=puntos+naipe2-10;
+		}
+		else{
+			puntos=puntos+naipe2;
+		}
+		return puntos+20;
 	}
+	
 	public String toString(){
 		return "Jugador" + this.getId().toString() + this.getEnMesa().toString();
 	}
@@ -233,7 +314,23 @@ public class Jugador implements java.io.Serializable{
 		}
 	}
 	
-	public Jugada jugar(Jugada jugada,Integer numeroDeTurno,Integer ronda){
+	public Boolean responderEnvido(){
+		if(this.getEnvido()==1){
+			if(Teclado.obtenerRandom(2)==0)
+				return true;
+			else
+				return false;
+		}
+		else{
+			System.out.println("1) Quiero!! \n2) No quiero... \nIgrese su opcion:");
+			if(Teclado.pedirEntrada(2)==1)
+				return true;
+			else
+				return false;
+		}
+	}
+	
+	public Jugada jugar(Jugada jugada,Integer numeroDeTurno,Integer ronda,Integer primeroDeJugada){
 		Integer opciones=1,opcion=0;
 		Boolean envido=false,truco=false;
 		if(this.verificarTruco(jugada)){
@@ -264,8 +361,10 @@ public class Jugador implements java.io.Serializable{
 			}
 			else{
 				if(envido){
-					System.out.println("Jugador"+this.getId()+": Canto el tanto? \n1)Cantalo... \n2)No lo cantes \nIngrese su opcion:");
+					System.out.println("-Jugador"+this.getId()+": Canto el tanto? \n1)Cantalo... \n2)No lo cantes \nIngrese su opcion:");
 					if(Teclado.pedirEntrada(2)==1){
+						System.out.println("-Jugador"+this.getId()+": ENVIDO!");
+						jugada.setEnvido(true);
 //						this.cantarEnvido;
 					}
 					else{
@@ -283,6 +382,9 @@ public class Jugador implements java.io.Serializable{
 		else{
 			if(opcion==2){
 				if(envido){
+					if(this.responderEnvido()){
+//						this.
+					}
 //					this.cantarEnvido;
 				}
 				else{

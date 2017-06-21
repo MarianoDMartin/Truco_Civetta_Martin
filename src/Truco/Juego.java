@@ -84,7 +84,7 @@ public class Juego implements java.io.Serializable{
 					numeroDeTurno++;
 					System.out.println("Turno jugador"+(this.getTurno()+1));
 					this.getJugada().setSeCantoTruco(false);
-					this.setJugada(this.getJugada().getJugadores().get(this.getTurno()).jugar(this.getJugada(),numeroDeTurno,ronda));
+					this.setJugada(this.getJugada().getJugadores().get(this.getTurno()).jugar(this.getJugada(),numeroDeTurno,ronda,primeroDeJugada));
 					if (this.getJugada().getSeCantoTruco() && this.getJugada().getNoSeQuiere()){
 						ganadorJugada=this.getJugada().getQuienCantoTruco();
 					}

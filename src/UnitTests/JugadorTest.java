@@ -128,5 +128,48 @@ public class JugadorTest {
 		jugador.elegirCarta();
 		assertTrue(jugador.getEnMesa().get(1).equals((new Naipe(Naipe.Palos.Basto,1))));
 	}
+	
+	@Test
+	public void testPuntosEnvido() {
+		jugador=new Jugador(1,new Mazo(),1);
+		ArrayList<Naipe> mano=new ArrayList<Naipe>();
+		mano.add(new Naipe(Naipe.Palos.Basto,10));
+		mano.add(new Naipe(Naipe.Palos.Copa,10));
+		mano.add(new Naipe(Naipe.Palos.Oro,10));
+		jugador.setMano(mano);
+		assertTrue(jugador.puntosEnvido()==0);
+		mano=new ArrayList<Naipe>();
+		mano.add(new Naipe(Naipe.Palos.Basto,10));
+		mano.add(new Naipe(Naipe.Palos.Basto,1));
+		mano.add(new Naipe(Naipe.Palos.Oro,10));
+		jugador.setMano(mano);
+		assertTrue(jugador.puntosEnvido()==21);
+		mano=new ArrayList<Naipe>();
+		mano.add(new Naipe(Naipe.Palos.Basto,5));
+		mano.add(new Naipe(Naipe.Palos.Basto,6));
+		mano.add(new Naipe(Naipe.Palos.Basto,10));
+		jugador.setMano(mano);
+		assertTrue(jugador.puntosEnvido()==31);
+		mano=new ArrayList<Naipe>();
+		mano.add(new Naipe(Naipe.Palos.Basto,10));
+		mano.add(new Naipe(Naipe.Palos.Basto,7));
+		mano.add(new Naipe(Naipe.Palos.Basto,6));
+		jugador.setMano(mano);
+		assertTrue(jugador.puntosEnvido()==33);
+		mano=new ArrayList<Naipe>();
+		mano.add(new Naipe(Naipe.Palos.Basto,10));
+		mano.add(new Naipe(Naipe.Palos.Oro,6));
+		mano.add(new Naipe(Naipe.Palos.Copa,7));
+		jugador.setMano(mano);
+		System.out.println(jugador.puntosEnvido());
+		assertTrue(jugador.puntosEnvido()==7);
+		mano=new ArrayList<Naipe>();
+		mano.add(new Naipe(Naipe.Palos.Basto,10));
+		mano.add(new Naipe(Naipe.Palos.Basto,7));
+		mano.add(new Naipe(Naipe.Palos.Copa,6));
+		jugador.setMano(mano);
+		System.out.println(jugador.puntosEnvido());
+		assertTrue(jugador.puntosEnvido()==27);
+	}
 
 }
