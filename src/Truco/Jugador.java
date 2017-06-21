@@ -1,7 +1,6 @@
 package Truco;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Jugador implements java.io.Serializable{
 	
@@ -13,6 +12,7 @@ public class Jugador implements java.io.Serializable{
 	private Integer equipo;
 	private ArrayList<Naipe> mano;
 	private ArrayList<Naipe> enMesa;
+	private Integer envido;
 	
 //constructores
 	public Jugador(Integer id,Mazo mazo, Integer equipo){
@@ -26,12 +26,21 @@ public class Jugador implements java.io.Serializable{
 			this.getMano().add((mazo.getNaipes().get(naipe)));
 			mazo.getNaipes().remove(mazo.getNaipes().get(naipe));
 		}
+		
 	}
 	
 //getters y setters	
 	
 	public ArrayList<Naipe> getEnMesa() {
 		return enMesa;
+	}
+
+	public Integer getEnvido() {
+		return this.envido;
+	}
+
+	public void setEnvido(Integer envido) {
+		this.envido = envido;
 	}
 
 	public Integer getEquipo() {
@@ -67,6 +76,14 @@ public class Jugador implements java.io.Serializable{
 	}
 	
 //Metodos de la clase
+	private Integer puntosEnvido(){
+		if(this.getMano().get(0).getPalo().equals(this.getMano().get(1).getPalo()) && this.getMano().get(0).getPalo().equals(this.getMano().get(2).getPalo())){
+			if(this.getMano().get(0).getValor()>=10){
+				
+			}
+		}
+		return 1;
+	}
 	public String toString(){
 		return "Jugador" + this.getId().toString() + this.getEnMesa().toString();
 	}
@@ -93,17 +110,16 @@ public class Jugador implements java.io.Serializable{
 	} 
 	
 	public Jugada responderTrucoPc(Jugada jugada){
-		Random rand = new Random();
 		Boolean trucoDisponible=false;
 		Integer opcion;
 		if(jugada.getPuntosTruco()<3){
 			trucoDisponible=true;
 		}
 		if (trucoDisponible){
-			opcion=rand.nextInt(3);
+			opcion=Teclado.obtenerRandom(3);
 		}
 		else{
-			opcion=rand.nextInt(2);
+			opcion=Teclado.obtenerRandom(3);
 		}
 		if(opcion==0){
 			System.out.println("Equipo2: QUIERO!!");
@@ -183,33 +199,100 @@ public class Jugador implements java.io.Serializable{
 		return jugada;
 	}
 	
-	public Jugada jugar(Jugada jugada,Integer numeroDeTurno,Integer ronda){
-		Random rand = new Random();
-		Boolean trucoDisponible =false;
-		//verificamos si se puede cantar truco
-		if(jugada.getPuntosTruco()==1){
-			trucoDisponible=true;
+	private Boolean verificarEnvido(Jugada jugada,Integer numeroDeTurno,Integer ronda){
+		if(jugada.getEnvido()==false && ronda==0){
+			switch(jugada.getJugadores().size()){
+				case 2:
+					return true;
+				case 4:
+					if(numeroDeTurno==3 || numeroDeTurno==4)
+						return true;
+					else
+						return false;
+				case 6:
+					if(numeroDeTurno==5 || numeroDeTurno==6)
+						return true;
+					else
+						return false;
+			}
+		}
+		return false;
+	}
+	
+	private Boolean verificarTruco(Jugada jugada){
+		if (jugada.getPuntosTruco()==1){
+			return true;
 		}
 		else{
-			if(jugada.getPuntosTruco()<4){
-				if( (jugada.getQuienCantoTruco() == this.getEquipo()) || (jugada.getQuienCantoTruco()==0) ){
-					trucoDisponible=true;
+			if ( (jugada.getPuntosTruco()<4) && ((jugada.getQuienCantoTruco()==this.getEquipo() || (jugada.getQuienCantoTruco()==0))) ){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+	}
+	
+	public Jugada jugar(Jugada jugada,Integer numeroDeTurno,Integer ronda){
+		Integer opciones=1,opcion=0;
+		Boolean envido=false,truco=false;
+		if(this.verificarTruco(jugada)){
+			opciones++;
+			truco=true;
+		}
+		if(this.verificarEnvido(jugada, numeroDeTurno, ronda)){
+			opciones++;
+			envido=true;
+		}
+		if(this.getId()==1){
+			System.out.println("1) Elegir carta a tirar");
+			if (envido){
+				System.out.println("2) Cantar Envido");
+				if (truco)
+					System.out.println("3) Cantar Truco \nIngrese su opcion:");
+				else
+					System.out.println("Ingrese su opcion:");
+			}
+			else{
+				System.out.println("2) Cantar Truco \nIngrese su opcion:");
+			}
+			opcion=Teclado.pedirEntrada(opciones);
+		}
+		else{
+			if(this.getEquipo()==2){
+				opcion=Teclado.obtenerRandom(opciones);
+			}
+			else{
+				if(envido){
+					System.out.println("Jugador"+this.getId()+": Canto el tanto? \n1)Cantalo... \n2)No lo cantes \nIngrese su opcion:");
+					if(Teclado.pedirEntrada(2)==1){
+//						this.cantarEnvido;
+					}
+					else{
+						this.elegirCarta();
+					}
+				}
+				else{
+					this.elegirCarta();
 				}
 			}
 		}
-		//si el truco se puede cantar le damos la opcion al usuario o pc dependiendo del turno
-		if (trucoDisponible){
-			if(this.getId()==1){ //del equipo 1 solo canta el user
-				this.mostrarMano(false);
-				System.out.println("1)Elegir carta a tirar \n2)Cantar Truco \nIngrese su opcion:");
-				if(Teclado.pedirEntrada(2)==1){
-					this.elegirCarta();
+		
+		if(opcion==1)
+			this.elegirCarta();
+		else{
+			if(opcion==2){
+				if(envido){
+//					this.cantarEnvido;
 				}
 				else{
-					this.cantarTruco(jugada,1);
-					jugada.setQuienCantoTruco(1);
+					this.cantarTruco(jugada,this.getEquipo());
+					jugada.setQuienCantoTruco(this.getEquipo());
 					jugada.setSeCantoTruco(true);
-					jugada=this.responderTrucoPc(jugada);
+					if(this.getEquipo()==1)	
+						jugada=this.responderTrucoPc(jugada);
+					else
+						jugada=this.responderTrucoUser(jugada);
 					if(!jugada.getNoSeQuiere()){
 						this.elegirCarta();
 					}
@@ -217,33 +300,20 @@ public class Jugador implements java.io.Serializable{
 						return jugada;
 					}
 				}
-				
 			}
 			else{
-				if (this.getEquipo()==2){
-					if (rand.nextInt(2)==0){
-						this.cantarTruco(jugada,2);
-						jugada.setQuienCantoTruco(2);
-						jugada.setSeCantoTruco(true);
-						jugada=this.responderTrucoUser(jugada);
-						if(!jugada.getNoSeQuiere()){
-							this.elegirCarta();
-						}
-						else{
-							return jugada;
-						}
-					}
-					else{
-						this.elegirCarta();
-					}
-				}
-				else{
+				this.cantarTruco(jugada,this.getEquipo());
+				jugada.setQuienCantoTruco(this.getEquipo());
+				jugada.setSeCantoTruco(true);
+				if(this.getEquipo()==1)	
+					jugada=this.responderTrucoPc(jugada);
+				else
+					jugada=this.responderTrucoUser(jugada);
+				if(!jugada.getNoSeQuiere())
 					this.elegirCarta();
-				}
+				else
+					return jugada;
 			}
-		}
-		else{
-			this.elegirCarta();
 		}
 		return jugada;
 	}

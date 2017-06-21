@@ -17,6 +17,7 @@ public class Jugada implements java.io.Serializable{
 	private Integer quienCantoTruco;
 	private Boolean seCantoTruco;
 	private Boolean noSeQuiere;
+	private Boolean envido;
 
 	//constructores	
 	public Jugada(Integer cantidadJugadores){
@@ -41,6 +42,14 @@ public class Jugada implements java.io.Serializable{
 	
 	public Mazo getMazo() {
 		return this.mazo;
+	}
+
+	public Boolean getEnvido() {
+		return this.envido;
+	}
+
+	public void setEnvido(Boolean envido) {
+		this.envido = envido;
 	}
 
 	public Boolean getNoSeQuiere() {
