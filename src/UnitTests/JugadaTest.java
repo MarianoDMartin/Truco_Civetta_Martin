@@ -10,6 +10,7 @@ import Truco.Jugada;
 import Truco.Jugador;
 import Truco.Mazo;
 import Truco.Naipe;
+import Truco.Teclado;
 
 public class JugadaTest {
 
@@ -249,4 +250,5 @@ public class JugadaTest {
 		assertTrue(jugada.proximoTurno(3)==4);
 	}
 
+	
 }

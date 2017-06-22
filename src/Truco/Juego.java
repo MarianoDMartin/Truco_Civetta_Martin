@@ -121,7 +121,12 @@ public class Juego implements java.io.Serializable{
 			else{
 				this.setPuntaje2(this.getPuntaje2()+puntajeASumar);
 			}
-			
+			if(this.getJugada().getEnvido()){
+				if(this.getJugada().getGanadorEnvido()==1)
+					this.setPuntaje1(this.getPuntaje1()+this.getJugada().getPuntosEnvido());
+				else
+					this.setPuntaje2(this.getPuntaje2()+this.getJugada().getPuntosEnvido());
+			}
 			this.setTurno(jugada.proximoTurno(primeroDeJugada));
 			primerJugadorDeMano=this.getTurno();
 			ganadorJugada=0;

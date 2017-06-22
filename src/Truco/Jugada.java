@@ -19,6 +19,7 @@ public class Jugada implements java.io.Serializable{
 	private Boolean noSeQuiere;
 	private Boolean envido;
 	private Integer puntosEnvido;
+	private Integer ganadorEnvido;
 
 	//constructores	
 	public Jugada(Integer cantidadJugadores){
@@ -33,6 +34,7 @@ public class Jugada implements java.io.Serializable{
 		this.setNoSeQuiere(false);
 		this.setEnvido(false);
 		this.setPuntosEnvido(0);
+		this.setGanadorEnvido(0);
 		Integer equipo=1;
 		for(Integer i=1;i<=cantidadJugadores;i++){
 			this.getJugadores().add(new Jugador(i,this.getMazo(),equipo));
@@ -45,6 +47,14 @@ public class Jugada implements java.io.Serializable{
 	
 	public Mazo getMazo() {
 		return this.mazo;
+	}
+
+	public Integer getGanadorEnvido() {
+		return ganadorEnvido;
+	}
+
+	public void setGanadorEnvido(Integer ganadorEnvido) {
+		this.ganadorEnvido = ganadorEnvido;
 	}
 
 	public Integer getPuntosEnvido() {
@@ -133,18 +143,39 @@ public class Jugada implements java.io.Serializable{
 
 	//Metodos de la clase
 	public Integer envido(Integer primeroDeJugada){
+		Boolean terminado=false;
 		Integer cantadosEquipo1=0;
 		Integer cantadosEquipo2=0;
-		Integer cantadosContario=0;
 		Integer ganador=primeroDeJugada;
 		Integer turno=primeroDeJugada;
-		System.out.println("Jugador"+this.getJugadores().get(primeroDeJugada).getId()+": "+this.getJugadores().get(primeroDeJugada).getEnvido());
-//		if(this.getJugadores().get(primeroDeJugada).getEquipo())
-//		while (cantadosContario<(this.getJugadores().size()/2)){
-//			
-//		}
-		
-		return 1;
+		Integer puntosGanador=this.getJugadores().get(turno).mostarPuntosEnvido();
+		if(this.getJugadores().get(turno).getEquipo()==1){
+			cantadosEquipo1++;
+		}
+		else{
+			cantadosEquipo2++;
+		}
+		turno=this.proximoTurno(turno);
+		while (!terminado){
+			if( (this.getJugadores().get(turno).getEquipo() != this.getJugadores().get(ganador).getEquipo()) && (this.getJugadores().get(turno).getCanteEnvido().equals(false)) ){
+				if(this.getJugadores().get(turno).mostarPuntosEnvido()>puntosGanador){
+					puntosGanador=this.getJugadores().get(turno).getEnvido();
+					ganador=turno;
+				}
+				if(this.getJugadores().get(turno).getEquipo()==1){
+					cantadosEquipo1++;
+				}
+				else{
+					cantadosEquipo2++;
+				}
+				if(ganador!=turno && (cantadosEquipo1==(this.getJugadores().size()/2))||cantadosEquipo1==(this.getJugadores().size()/2)){
+					terminado=true;
+				}	
+			}
+			turno=this.proximoTurno(turno);
+		}
+		System.out.println("Ganador del envido: equipo"+this.getJugadores().get(ganador).getEquipo());
+		return this.getJugadores().get(ganador).getEquipo();
 	}
 	
 	public Integer verificarRonda(Integer ronda){
