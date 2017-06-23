@@ -216,7 +216,7 @@ public class Jugador implements java.io.Serializable{
 			opcion=Teclado.obtenerRandom(3);
 		}
 		else{
-			opcion=Teclado.obtenerRandom(3);
+			opcion=Teclado.obtenerRandom(2);
 		}
 		if(opcion==0){
 			System.out.println("Equipo2: QUIERO!!");
@@ -381,7 +381,7 @@ public class Jugador implements java.io.Serializable{
 		}
 		else{
 			if(this.getEquipo()==2){
-				opcion=Teclado.obtenerRandom(opciones);
+				opcion=(Teclado.obtenerRandom(opciones)+1);
 			}
 			else{
 				if(envido){
