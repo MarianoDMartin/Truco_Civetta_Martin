@@ -175,8 +175,11 @@ public class Jugador implements java.io.Serializable{
 		return puntos+20;
 	}
 	
-	public Integer mostarPuntosEnvido(){
-		System.out.println("Jugador"+this.getId()+": "+this.getEnvido());
+	public Integer mostarPuntosEnvido(Integer puntosGanador){
+		if(this.getEnvido()>puntosGanador)
+			System.out.println("Jugador"+this.getId()+": "+this.getEnvido());
+		else
+			System.out.println("Jugador"+this.getId()+": Son buenas...");
 		this.setCanteEnvido(true);
 		return this.getEnvido();
 	}
@@ -366,6 +369,7 @@ public class Jugador implements java.io.Serializable{
 			envido=true;
 		}
 		if(this.getId()==1){
+			mostrarMano(false);
 			System.out.println("1) Elegir carta a tirar");
 			if (envido){
 				System.out.println("2) Cantar Envido");
@@ -375,7 +379,9 @@ public class Jugador implements java.io.Serializable{
 					System.out.println("Ingrese su opcion:");
 			}
 			else{
-				System.out.println("2) Cantar Truco \nIngrese su opcion:");
+				if(truco)
+					System.out.println("2) Cantar Truco");
+				System.out.println("Ingrese su opcion:");
 			}
 			opcion=Teclado.pedirEntrada(opciones);
 		}
@@ -409,23 +415,40 @@ public class Jugador implements java.io.Serializable{
 				}
 			}
 		}
-		
-		if(opcion==1)
-			this.elegirCarta();
-		else{
-			if(opcion==2){
-				if(envido){
-					System.out.println("-Jugador"+this.getId()+": ENVIDO!");
-					jugada.setEnvido(true);
-					if(this.responderEnvido()){
-						jugada.setPuntosEnvido(2);
-						jugada.setGanadorEnvido(jugada.envido(primeroDeJugada));
-						this.elegirCarta();
+		if(this.getEquipo()==2 || this.getId()==1){
+			if(opcion==1)
+				this.elegirCarta();
+			else{
+				if(opcion==2){
+					if(envido){
+						System.out.println("-Jugador"+this.getId()+": ENVIDO!");
+						jugada.setEnvido(true);
+						if(this.responderEnvido()){
+							jugada.setPuntosEnvido(2);
+							jugada.setGanadorEnvido(jugada.envido(primeroDeJugada));
+							this.elegirCarta();
+						}
+						else{
+							jugada.setPuntosEnvido(1);
+							jugada.setGanadorEnvido(this.getEquipo());
+							this.elegirCarta();
+						}
 					}
 					else{
-						jugada.setPuntosEnvido(1);
-						jugada.setGanadorEnvido(this.getEquipo());
-						this.elegirCarta();
+						this.cantarTruco(jugada,this.getEquipo());
+						jugada.setQuienCantoTruco(this.getEquipo());
+						jugada.setSeCantoTruco(true);
+						if(this.getEquipo()==1)	
+							jugada=this.responderTrucoPc(jugada);
+						else
+							jugada=this.responderTrucoUser(jugada);
+						if(!jugada.getNoSeQuiere()){
+							jugada.setEnvido(true);
+							this.elegirCarta();
+						}
+						else{
+							return jugada;
+						}
 					}
 				}
 				else{
@@ -437,25 +460,12 @@ public class Jugador implements java.io.Serializable{
 					else
 						jugada=this.responderTrucoUser(jugada);
 					if(!jugada.getNoSeQuiere()){
+						jugada.setEnvido(true);
 						this.elegirCarta();
 					}
-					else{
+					else
 						return jugada;
-					}
 				}
-			}
-			else{
-				this.cantarTruco(jugada,this.getEquipo());
-				jugada.setQuienCantoTruco(this.getEquipo());
-				jugada.setSeCantoTruco(true);
-				if(this.getEquipo()==1)	
-					jugada=this.responderTrucoPc(jugada);
-				else
-					jugada=this.responderTrucoUser(jugada);
-				if(!jugada.getNoSeQuiere())
-					this.elegirCarta();
-				else
-					return jugada;
 			}
 		}
 		return jugada;

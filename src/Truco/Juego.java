@@ -69,6 +69,7 @@ public class Juego implements java.io.Serializable{
 	
 	
 	public void EmpezarJuego(){
+		Integer opcion;
 		Integer ganadorJugada=0;
 		Integer ronda=0;
 		Integer auxTurno;
@@ -135,12 +136,18 @@ public class Juego implements java.io.Serializable{
 			this.setJugada(Jugada.nuevaJugada(cantidadJugadores));
 			System.out.println("Puntos equipo 1: "+ this.getPuntaje1());
 			System.out.println("Puntos equipo 2: "+ this.getPuntaje2());
-			System.out.println("1)Seguir Jugando \n2)Guardar y salir \nIngresa tu opcion:");
-			if(Teclado.pedirEntrada(2)==2){
+			System.out.println("1)Seguir Jugando \n2)Guardar y salir \n3)Salir sin guardar \nIngresa tu opcion:");
+			opcion=Teclado.pedirEntrada(3);
+			if(opcion==2){
 				Archivos.guardarJuego(this);
 				puntaje1=puntajeMaximo;
 			}
-			
+			else{
+				if(opcion==3){
+					System.out.println("Gracias por jugar! Adios!");
+					System.exit(0);
+				}
+			}
 		}
 	}
 }

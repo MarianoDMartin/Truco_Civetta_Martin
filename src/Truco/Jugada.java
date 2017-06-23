@@ -148,7 +148,7 @@ public class Jugada implements java.io.Serializable{
 		Integer cantadosEquipo2=0;
 		Integer ganador=primeroDeJugada;
 		Integer turno=primeroDeJugada;
-		Integer puntosGanador=this.getJugadores().get(turno).mostarPuntosEnvido();
+		Integer puntosGanador=this.getJugadores().get(turno).mostarPuntosEnvido(0);
 		if(this.getJugadores().get(turno).getEquipo()==1){
 			cantadosEquipo1++;
 		}
@@ -158,7 +158,7 @@ public class Jugada implements java.io.Serializable{
 		turno=this.proximoTurno(turno);
 		while (!terminado){
 			if( (this.getJugadores().get(turno).getEquipo() != this.getJugadores().get(ganador).getEquipo()) && (this.getJugadores().get(turno).getCanteEnvido().equals(false)) ){
-				if(this.getJugadores().get(turno).mostarPuntosEnvido()>puntosGanador){
+				if(this.getJugadores().get(turno).mostarPuntosEnvido(puntosGanador)>puntosGanador){
 					puntosGanador=this.getJugadores().get(turno).getEnvido();
 					ganador=turno;
 				}
